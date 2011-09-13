@@ -4,8 +4,8 @@ from __future__ import absolute_import
 import re
 
 from flask import url_for, request
-from flask_admin import ObjectAdminModule, recursive_getattr
-from flask_admin.views import ObjectFormView
+from flaskext.dashed.admin import ObjectAdminModule, recursive_getattr
+from flaskext.dashed.views import ObjectFormView
 from sqlalchemy.sql import expression
 from sqlalchemy.sql.expression import or_
 from sqlalchemy.orm import contains_eager, aliased

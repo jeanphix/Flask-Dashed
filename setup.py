@@ -10,15 +10,15 @@ from setuptools import setup
 
 setup(
     name='Flask-Dashed',
-    version='0.1-dev',
-    url='toto',
+    version='0.1',
+    url='https://github.com/jean-philippe/Flask-Dashed',
     license='MIT',
     author='Jean-Philippe Serafin',
     author_email='serafinjp@gmail.com',
     description='Adds a way to easily build backends',
     long_description=__doc__,
-    packages=['flaskext'],
     namespace_packages=['flaskext'],
+    include_package_data=True,
     zip_safe=False,
     platforms='any',
     install_requires=[
@@ -28,7 +28,7 @@ setup(
         'odict'
     ],
     classifiers=[
-        'Development Status :: 5 - Alpha',
+        'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
@@ -36,5 +36,9 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
-    ]
-)
+    ],
+    packages=[
+        'flaskext',
+        'flaskext.dashed',
+        'flaskext.dashed.ext',
+    ])
