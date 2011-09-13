@@ -1,0 +1,74 @@
+/*
+* Base styles
+*/
+html, body, form, fieldset, legend, ul, ol, dl, blockquote, pre, h1, h2, h3, h4, h5, h6, code, kbd, q, p{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+html{
+    font-size: 100%;
+}
+body{
+    font-family:"Liberation Sans",Arial,Helvetica,Garuda,sans-serif;
+    line-height: 1.3;
+}
+header, footer, section, hgroup, aside, nav, article, figure, figcaption, time, dialog{
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+pre, code, kbd, samp {
+    font-family: monospace, sans-serif;
+}
+img, table, td, blockquote, code, pre, textarea, input, video{
+    max-width: 100%;
+}
+code, pre, samp, textarea, table, td{
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+a img{
+    border: 0;
+}
+abbr[title]{
+    border-bottom: 1px dashed #555;
+    cursor: help;
+}
+table{
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+th, caption{
+    text-align: left;
+}
+thead{
+    margin: 0;
+}
+h1{
+    margin: 1em 0;
+    font-size: 150%;
+}
+h2{
+    margin: 0.8em 0;
+    font-size: 130%;
+}
+h3{
+    margin: 0.65em 0;
+    font-size: 110%;
+}
+h4, h5, h6{
+    margin: 0.5em 0;
+    font-size: 110%;
+}
+p, ul{
+    margin: 0.5em 0;
+}
+ul{
+    padding: 0 0 0 1.5em;
+}
