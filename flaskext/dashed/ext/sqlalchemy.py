@@ -37,6 +37,7 @@ class ModelAdminModule(ObjectAdminModule):
 
     def get_object_list(self, search=None, order_by_name=None,
             order_by_direction=None, offset=None, limit=None):
+        limit = limit if limit else self.list_per_page
         query = self._get_filtered_query(self.list_query_factory, search)
         if not (order_by_name and order_by_direction)\
                 and self.order_by is not None:

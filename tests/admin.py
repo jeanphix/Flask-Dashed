@@ -11,6 +11,11 @@ class AdminTest(TestCase):
         self.admin = Admin(app)
         return app
 
+    def test_main_dashboard_view(self):
+        r = self.client.get(self.admin.navigation[0]['url'])
+        self.assertEqual(r.status_code, 200)
+        self.assertIn('Hello world', r.data)
+
     def test_register_admin_module(self):
         self.assertRaises(
             NotImplementedError, 
