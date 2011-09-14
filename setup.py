@@ -2,28 +2,29 @@
 Flask-Dashed
 -----------
 
-Adds a way to easily build backends.
+Adds a way to easily build admin apps.
 
 """
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 setup(
-    name='Flask-Dashed',
+    name='Flask_Dashed',
     version='0.1',
     url='https://github.com/jean-philippe/Flask-Dashed',
-    license='MIT',
+    license='mit',
     author='Jean-Philippe Serafin',
     author_email='serafinjp@gmail.com',
-    description='Adds a way to easily build backends',
+    description='Adds a way to easily build admin apps',
     long_description=__doc__,
+    packages=find_packages(),
+    package_dir={'': '.'},
     namespace_packages=['flaskext'],
     include_package_data=True,
     zip_safe=False,
     platforms='any',
     install_requires=[
         'Flask',
-        'Flask-SQLAlchemy',
         'Flask-WTF',
         'odict'
     ],
@@ -37,8 +38,4 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    packages=[
-        'flaskext',
-        'flaskext.dashed',
-        'flaskext.dashed.ext',
-    ])
+)
