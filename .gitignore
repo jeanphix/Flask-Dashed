@@ -3,3 +3,4 @@ build
 dist
 Flask_Dashed.egg-info
 temp
+docs/_build
