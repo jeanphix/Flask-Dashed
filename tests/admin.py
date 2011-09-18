@@ -2,7 +2,7 @@
 import unittest
 from flask import Flask
 from flaskext.testing import TestCase
-from flaskext.dashed.admin import Admin, AdminNode, AdminModule
+from flask_dashed.admin import Admin, AdminModule
 
 
 class AdminTest(TestCase):
@@ -18,7 +18,7 @@ class AdminTest(TestCase):
 
     def test_register_admin_module(self):
         self.assertRaises(
-            NotImplementedError, 
+            NotImplementedError,
             self.admin.register_module,
             AdminModule, '/my-module', 'my_module', 'my module title'
         )
