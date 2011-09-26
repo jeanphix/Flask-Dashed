@@ -1,0 +1,27 @@
+.errors{
+    color: #f00;
+}
+form p{
+    clear: both;
+}
+label{
+    display: block;
+    float: left;
+    width: 200px;
+}
+label,
+input[type=text],
+input[type=password]{
+    padding: 0.3em 0;
+}
+input[type=text],
+input[type=password],
+select,
+textarea{
+    padding: 0.3em;
+    width: 300px;
+    border: 1px #aaa solid;
+}
+textarea{
+    height: 5em;
+}

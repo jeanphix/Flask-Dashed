@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ module.list_title }}{% endblock %}
+
+{% block help %}{{ module.user_doc }}{% endblock %}
+
+{% block content %}
+    <h1>{{ module.list_title }}</h1>
+    {% if module.searchable_fields %}
+        <form id="search-form" action="" method="get">
+            <input type="text" name="search" placeholder="search" value="{{ request.args['search'] }}" />
+            <input type="submit" value="go!" />
+        </form>
+    {% endif %}
+    {% if objects %}
+        <table>
+            <thead>
+                <tr>
+                    {% for field in module.list_fields %}
+                        {% if module.list_fields[field].column %}
+                            {% if 'orderby' in request.args and request.args.orderby==field %}
+                                {% set current_dir=request.args.orderdir %}
+                                {% if current_dir == 'asc' %}
+                                    {% set target_dir='desc' %}
+                                {% else %}
+                                    {% set target_dir='asc' %}
+                                {% endif %}
+                            {% else %}
+                                {% set current_dir='' %}
+                                {% set target_dir='asc' %}
+                            {% endif %}
+                        {% endif %}
+                        <th class="{{ current_dir }}">{% if module.list_fields[field].column %}<a href="{{ url_for(request.url_rule.endpoint, **compute_args(request, {'orderby': field, 'orderdir': target_dir})) }}">{% endif %}{{ module.list_fields[field].label }}{% if module.list_fields[field].column %}</a>{% endif %}</th>
+                    {% endfor %}
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in objects %}
+                    <tr>
+                        {% for field in module.list_fields %}
+                            <td>{% if object|recursive_getattr(field) %}{{ object|recursive_getattr(field) }}{% endif %}</td>
+                        {% endfor %}
+                        <td class="actions">{% for class, link, title, url in module.get_actions_for_object(object) %}<a href="{{ url }}?next={{ request.path }}" class="{{ class }}" title="{{ title }}">{{ link }}</a> {% endfor %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p id="counter">{{ objects|length }} / {{ count }}</p>
+        <ul id="pager">
+            {% for page in pages %}
+                <li>
+                    {% if page==current_page %}
+                        {{ page }}
+                    {% else %}
+                        <a href="{{ url_for('.%s_%s' % (module.endpoint, 'list'), page=page, **request.args) }}">{{ page }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>no results</p>
+    {% endif %}
+    <p><a href="{{ url_for('.%s_%s' % (module.endpoint, 'new')) }}?next={{ request.path }}">new</a></p>
+{% endblock %}

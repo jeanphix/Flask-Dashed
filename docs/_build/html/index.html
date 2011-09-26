@@ -58,7 +58,10 @@
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div>pip install Flask-Dashed</div></blockquote>
-<p>Code:</p>
+</div>
+<div class="section" id="minimal-usage">
+<h2>Minimal usage<a class="headerlink" href="#minimal-usage" title="Permalink to this headline">¶</a></h2>
+<p>code:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
 <span class="kn">from</span> <span class="nn">flask_dashed.admin</span> <span class="kn">import</span> <span class="n">Admin</span>
 
@@ -67,6 +70,21 @@
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sqlalchemy-extension">
+<h2>SQLALchemy extension<a class="headerlink" href="#sqlalchemy-extension" title="Permalink to this headline">¶</a></h2>
+<p>code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask_dashed.ext.sqlalchemy</span> <span class="kn">import</span> <span class="n">ModelAdminModule</span>
+
+
+<span class="k">class</span> <span class="nc">BookModule</span><span class="p">(</span><span class="n">ModelAdminModule</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Book</span>
+    <span class="n">db_session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span>
+
+<span class="n">book_module</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">register_module</span><span class="p">(</span><span class="n">BookModule</span><span class="p">,</span> <span class="s">&#39;/books&#39;</span><span class="p">,</span> <span class="s">&#39;books&#39;</span><span class="p">,</span>
+    <span class="s">&#39;book management&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -103,6 +121,8 @@
   <ul>
 <li><a class="reference internal" href="#">Welcome to Flask_Dashed&#8217;s documentation!</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#minimal-usage">Minimal usage</a></li>
+<li><a class="reference internal" href="#sqlalchemy-extension">SQLALchemy extension</a></li>
 <li><a class="reference internal" href="#api-reference">API Reference</a><ul>
 </ul>
 </li>

@@ -1,0 +1,55 @@
+table{
+    margin: 0 0 1em 0;
+    overflow-x: auto;
+}
+th, td{
+    padding: 0.3em 0.5em;
+    border: 1px solid #D2D2D2;
+    height: 1em;
+}
+th{
+    font-weight: normal;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.11, rgb(205,205,205)),
+        color-stop(0.56, rgb(238,238,238))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(205,205,205) 11%,
+        rgb(238,238,238) 56%
+    );
+    background-image: -o-linear-gradient(
+        top,
+        rgb(205,205,205),
+        rgb(238,238,238)
+    );
+}
+th > a{
+    text-decoration: none;
+}
+.asc, .desc{
+    position: relative;
+}
+.asc > a, .desc > a{
+    padding: 0 0 0 1em;
+}
+.asc > a:before, .desc > a:before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0.6em;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+.desc > a:before{
+    border-top: 10px solid #555;
+}
+.asc > a:before{
+    border-bottom: 10px solid #555;
+}
+tr:nth-child(odd){
+    background: #f2f2f2;
+}
