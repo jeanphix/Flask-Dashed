@@ -59,6 +59,7 @@ class Admin(object):
         self.register_main_dashboard(main_dashboard)
         self.app = app
         self.url_prefix = url_prefix
+        self.endpoint = endpoint
         self.secure_functions = {}
 
         @self.blueprint.before_request
@@ -185,7 +186,7 @@ class AdminModule(AdminNode):
         :param endpoint: the endpoint
         :param view_func: the view
         """
-        full_endpoint = "%s.%s_%s" % (self.admin.blueprint.name,
+        full_endpoint = "%s.%s_%s" % (self.admin.endpoint,
             self.endpoint, endpoint)
         self.admin.app.add_url_rule("%s%s%s" % (self.admin.url_prefix,
             self.url_prefix, rule), full_endpoint, view_func, **options)
