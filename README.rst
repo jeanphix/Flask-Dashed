@@ -48,6 +48,11 @@ securing specific module endpoint::
     book_module = admin.register_module(BookModule, '/books', 'books',
         'book management')
 
-    @book_module.secure_endpoint('list', [http_code=403])
-    def secure_list():
+    @book_module.secure_endpoint('list', http_code=401)
+    def login_required():
         return "user" in session
+
+    @book_module.secure_endpoint('list', http_code=403)
+    def check_list_credential():
+        # I'm now signed in, may I access the ressource?
+        return session.user.can_list()

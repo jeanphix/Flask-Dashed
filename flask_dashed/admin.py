@@ -143,7 +143,7 @@ class Admin(object):
 
         :param endpoint: the endpoint to protect
         :param function: the function to execute
-        :param http_code: the http code response
+        :param http_code: the response http code
         """
         if endpoint in self.secure_functions:
             self.secure_functions[endpoint].append((function, http_code,))
