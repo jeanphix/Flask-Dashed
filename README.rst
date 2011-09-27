@@ -7,7 +7,7 @@ Installation
 Minimal usage
 -------------
 
-code::
+Code::
 
     from flask import Flask
     from flask_dashed.admin import Admin
@@ -50,7 +50,7 @@ Securing specific module endpoint::
 SQLALchemy extension
 --------------------
 
-code::
+Code::
 
     from flask_dashed.ext.sqlalchemy import ModelAdminModule
 
