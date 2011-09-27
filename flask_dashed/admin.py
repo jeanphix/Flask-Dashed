@@ -50,8 +50,6 @@ class AdminNode(object):
 
 class Admin(object):
     """Class that provides a way to add admin interface to Flask applications.
-
-    @TODO: need to write something better for endpoint factories
     """
     def __init__(self, app, url_prefix="/admin",
             main_dashboard=default_dashboard, endpoint='admin'):

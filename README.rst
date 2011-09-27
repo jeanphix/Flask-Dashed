@@ -26,7 +26,7 @@ Securing all admin endpoints::
 
     from flask import session
 
-    @admin.secure_path('.', http_code=401)
+    @admin.secure_endpoint('.', http_code=401)
     def login_required():
         return "user" in session
 
