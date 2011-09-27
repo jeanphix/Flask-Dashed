@@ -135,7 +135,7 @@ class AutoModelAdminModuleTest(BaseTest):
 
     def test_secure_all_admin(self):
 
-        @admin.secure_path('.')
+        @admin.secure_endpoint('.')
         def secure():
             return False
 
@@ -143,9 +143,9 @@ class AutoModelAdminModuleTest(BaseTest):
         r = self.client.get(url_for('admin.book_list'))
         self.assertEqual(r.status_code, 403)
 
-    def test_secure_path(self):
+    def test_secure_endpoint(self):
 
-        @self.book_module.secure_path('list')
+        @self.book_module.secure_endpoint('list')
         def secure():
             return False
 
@@ -154,9 +154,9 @@ class AutoModelAdminModuleTest(BaseTest):
         r = self.client.get(url_for('admin.book_list'))
         self.assertEqual(r.status_code, 403)
 
-    def test_secure_path_from_root_path(self):
+    def test_secure_endpoint_from_root(self):
 
-        @self.book_module.secure_path('.')
+        @self.book_module.secure_endpoint('.')
         def secure():
             return False
 

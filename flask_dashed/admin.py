@@ -138,28 +138,28 @@ class Admin(object):
                 parent['children'].append(depth[level])
         return navigation
 
-    def secure_path(self, path, http_code=403):
+    def secure_endpoint(self, endpoint, http_code=403):
         """Gives a way to secure specific path.
 
-        :param path: the path to protect
+        :param endpoint: the endpoint to protect
         :param http_code: the response http code
         """
         def decorator(f):
-            self.add_security_at_path(path, f, http_code)
+            self.add_endpoint_security(endpoint, f, http_code)
             return f
         return decorator
 
-    def add_security_at_path(self, path, function, http_code=403):
+    def add_endpoint_security(self, endpoint, function, http_code=403):
         """Registers security function for given path.
 
-        :param path: the path to secure
+        :param endpoint: the endpoint to secure
         :function: the security function
         :param http_code: the response http code
         """
-        if path in self.secure_functions:
-            self.secure_functions[path].append((function, http_code,))
+        if endpoint in self.secure_functions:
+            self.secure_functions[endpoint].append((function, http_code,))
         else:
-            self.secure_functions[path] = [(function, http_code,)]
+            self.secure_functions[endpoint] = [(function, http_code,)]
 
     def check_endpoint_security(self, endpoint):
         """Checks security for specific and point.
@@ -214,14 +214,15 @@ class AdminModule(AdminNode):
         raise NotImplementedError('Admin module class must provide'
             + ' register_rules()')
 
-    def secure_path(self, path, http_code=403):
+    def secure_endpoint(self, endpoint, http_code=403):
         """Gives a way to secure endpoints.
 
         :param endpoint: the endpoint to protect
+        :param http_code: the response http code
         """
         def decorator(f):
-            self.admin.add_security_at_path(".%s_%s" % (self.endpoint,
-                path.lstrip('.')), f, http_code)
+            self.admin.add_endpoint_security(".%s_%s" % (self.endpoint,
+                endpoint.lstrip('.')), f, http_code)
             return f
         return decorator
 
