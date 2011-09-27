@@ -56,8 +56,23 @@
 <h2>Admin Object<a class="headerlink" href="#admin-object" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="admin.Admin">
-<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">Admin</tt><big>(</big><em>app</em>, <em>url_prefix='/admin'</em>, <em>main_dashboard=&lt;dashboard.Dashboard instance at 0x36a1b48&gt;</em>, <em>blue_print=&lt;flask.blueprints.Blueprint object at 0x369ca90&gt;</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">Admin</tt><big>(</big><em>app</em>, <em>url_prefix='/admin'</em>, <em>main_dashboard=&lt;dashboard.Dashboard instance at 0x1a68170&gt;</em>, <em>blue_print=&lt;flask.blueprints.Blueprint object at 0x1a5fd90&gt;</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that provides a way to add admin interface to Flask applications.</p>
+<p>&#64;TODO: need to write something better for endpoint factories</p>
+<dl class="method">
+<dt id="admin.Admin.check_endpoint_security">
+<tt class="descname">check_endpoint_security</tt><big>(</big><em>endpoint</em><big>)</big><a class="headerlink" href="#admin.Admin.check_endpoint_security" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks security for specific and point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>endpoint</strong> &#8211; the endpoint to check</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="admin.Admin.navigation">
 <tt class="descname">navigation</tt><a class="reference internal" href="_modules/admin.html#Admin.navigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.navigation" title="Permalink to this definition">¶</a></dt>
@@ -68,6 +83,25 @@
 <dt id="admin.Admin.register_module">
 <tt class="descname">register_module</tt><big>(</big><em>module_class</em>, <em>rule</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.register_module"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.register_module" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers new module to current admin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.Admin.secure_endpoint">
+<tt class="descname">secure_endpoint</tt><big>(</big><em>endpoint</em>, <em>function</em>, <em>http_code=403</em><big>)</big><a class="headerlink" href="#admin.Admin.secure_endpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a way to secure specific endpoint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>endpoint</strong> &#8211; the endpoint to protect</li>
+<li><strong>function</strong> &#8211; the function to execute</li>
+<li><strong>http_code</strong> &#8211; the http code response</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -123,6 +157,20 @@ rules.</p>
 <dt id="admin.AdminModule.register_rules">
 <tt class="descname">register_rules</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.register_rules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.register_rules" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers all module rules after initialization.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.AdminModule.secure_endpoint">
+<tt class="descname">secure_endpoint</tt><big>(</big><em>endpoint</em>, <em>http_code=403</em><big>)</big><a class="headerlink" href="#admin.AdminModule.secure_endpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a way to secure endpoints.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>endpoint</strong> &#8211; the endpoint to protect</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

@@ -88,6 +88,19 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="dealing-with-security">
+<h2>Dealing with security<a class="headerlink" href="#dealing-with-security" title="Permalink to this headline">¶</a></h2>
+<p>securing specific module endpoint:</p>
+<div class="highlight-python"><pre>from flask import session
+
+book_module = admin.register_module(BookModule, '/books', 'books',
+    'book management')
+
+@book_module.secure_endpoint('list', [http_code=403])
+def secure_list():
+    return "user" in session</pre>
+</div>
+</div>
 <div class="section" id="api-reference">
 <h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -123,6 +136,7 @@
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#minimal-usage">Minimal usage</a></li>
 <li><a class="reference internal" href="#sqlalchemy-extension">SQLALchemy extension</a></li>
+<li><a class="reference internal" href="#dealing-with-security">Dealing with security</a></li>
 <li><a class="reference internal" href="#api-reference">API Reference</a><ul>
 </ul>
 </li>
