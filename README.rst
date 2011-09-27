@@ -24,13 +24,13 @@ Dealing with security
 
 Securing all admin endpoints::
 
+    from flask import session
+
     @admin.secure_path('.', http_code=401)
     def login_required():
         return "user" in session
 
 Securing all module endpoints::
-
-    from flask import session
 
     book_module = admin.register_module(BookModule, '/books', 'books',
         'book management')
