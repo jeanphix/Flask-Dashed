@@ -22,7 +22,13 @@ code::
 Dealing with security
 ---------------------
 
-securing specific all module endpoints::
+Securing all admin endpoints::
+
+    @admin.secure_path('.', http_code=401)
+    def login_required():
+        return "user" in session
+
+Securing all module endpoints::
 
     from flask import session
 
@@ -33,7 +39,7 @@ securing specific all module endpoints::
     def login_required():
         return "user" in session
 
-securing specific module endpoint::
+Securing specific module endpoint::
 
     @book_module.secure_path('list', http_code=403)
     def check_list_credential():

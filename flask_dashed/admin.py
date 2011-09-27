@@ -33,7 +33,7 @@ class AdminNode(object):
     """An AdminNode just act as navigation container, it doesn't provide any
     rules.
     """
-    def __init__(self, admin, endpoint, short_title, title=None):
+    def __init__(self, admin, endpoint, short_title, title=None, parent=None):
         """Construct new AdminNode instance.
 
         :param admin: the parent admin object
@@ -45,6 +45,7 @@ class AdminNode(object):
         self.endpoint = endpoint
         self.short_title = short_title
         self.title = title
+        self.parent = parent
 
 
 class Admin(object):
@@ -88,7 +89,8 @@ class Admin(object):
         """Registers new module to current admin.
         """
         title = short_title if not title else title
-        new_module = module_class(self, rule, endpoint, short_title, title)
+        new_module = module_class(self, rule, endpoint, short_title, title,
+            parent=parent)
         self._add_node(new_module, endpoint, parent=parent)
         return new_module
 
@@ -136,11 +138,22 @@ class Admin(object):
                 parent['children'].append(depth[level])
         return navigation
 
-    def secure_path(self, path, function, http_code=403):
+    def secure_path(self, path, http_code=403):
         """Gives a way to secure specific path.
 
         :param path: the path to protect
-        :param function: the function to execute
+        :param http_code: the response http code
+        """
+        def decorator(f):
+            self.add_security_at_path(path, f, http_code)
+            return f
+        return decorator
+
+    def add_security_at_path(self, path, function, http_code=403):
+        """Registers security function for given path.
+
+        :param path: the path to secure
+        :function: the security function
         :param http_code: the response http code
         """
         if path in self.secure_functions:
@@ -163,7 +176,8 @@ class Admin(object):
 class AdminModule(AdminNode):
     """Class that provides a way to create simple admin module.
     """
-    def __init__(self, admin, url_prefix, endpoint, short_title, title):
+    def __init__(self, admin, url_prefix, endpoint, short_title, title,
+            parent=None):
         """Constructs new module instance.
 
         :param admin: the parent admin object
@@ -178,6 +192,7 @@ class AdminModule(AdminNode):
         self.title = title
         self.url_prefix = url_prefix
         self.rules = []
+        self.parent = parent
         self.register_rules()
 
     def add_url_rule(self, rule, endpoint, view_func=None, **options):
@@ -205,7 +220,7 @@ class AdminModule(AdminNode):
         :param endpoint: the endpoint to protect
         """
         def decorator(f):
-            self.admin.secure_path(".%s_%s" % (self.endpoint,
+            self.admin.add_security_at_path(".%s_%s" % (self.endpoint,
                 path.lstrip('.')), f, http_code)
             return f
         return decorator
