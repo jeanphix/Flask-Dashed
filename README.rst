@@ -19,25 +19,6 @@ code::
         app.run()
 
 
-
-
-
-SQLALchemy extension
---------------------
-
-code::
-
-    from flask_dashed.ext.sqlalchemy import ModelAdminModule
-
-
-    class BookModule(ModelAdminModule):
-        model = Book
-        db_session = db.session
-
-    book_module = admin.register_module(BookModule, '/books', 'books',
-        'book management')
-
-
 Dealing with security
 ---------------------
 
@@ -58,3 +39,19 @@ securing specific module endpoint::
     def check_list_credential():
         # I'm now signed in, may I access the ressource?
         return session.user.can_list()
+
+
+SQLALchemy extension
+--------------------
+
+code::
+
+    from flask_dashed.ext.sqlalchemy import ModelAdminModule
+
+
+    class BookModule(ModelAdminModule):
+        model = Book
+        db_session = db.session
+
+    book_module = admin.register_module(BookModule, '/books', 'books',
+        'book management')
