@@ -66,7 +66,7 @@ class Admin(object):
         def before_request():
             """Checks security for current endpoint."""
             endpoint = request.url_rule.endpoint\
-                .lstrip("%s." % self.blueprint.name)
+                .lstrip("%s" % self.endpoint)
             self.check_endpoint_security(endpoint)
 
         self.blueprint.add_url_rule('/', view_func=DashboardView.as_view(
@@ -136,27 +136,28 @@ class Admin(object):
                 parent['children'].append(depth[level])
         return navigation
 
-    def secure_endpoint(self, endpoint, function, http_code=403):
-        """Gives a way to secure specific endpoint.
+    def secure_path(self, path, function, http_code=403):
+        """Gives a way to secure specific path.
 
-        :param endpoint: the endpoint to protect
+        :param path: the path to protect
         :param function: the function to execute
         :param http_code: the response http code
         """
-        if endpoint in self.secure_functions:
-            self.secure_functions[endpoint].append((function, http_code,))
+        if path in self.secure_functions:
+            self.secure_functions[path].append((function, http_code,))
         else:
-            self.secure_functions[endpoint] = [(function, http_code,)]
+            self.secure_functions[path] = [(function, http_code,)]
 
     def check_endpoint_security(self, endpoint):
         """Checks security for specific and point.
 
         :param endpoint: the endpoint to check
         """
-        if endpoint in self.secure_functions:
-            for function, http_code in self.secure_functions[endpoint]:
-                if not function():
-                    return abort(http_code)
+        for path in self.secure_functions:
+            if endpoint.startswith(path):
+                for function, http_code in self.secure_functions[path]:
+                    if not function():
+                        return abort(http_code)
 
 
 class AdminModule(AdminNode):
@@ -198,14 +199,14 @@ class AdminModule(AdminNode):
         raise NotImplementedError('Admin module class must provide'
             + ' register_rules()')
 
-    def secure_endpoint(self, endpoint, http_code=403):
+    def secure_path(self, path, http_code=403):
         """Gives a way to secure endpoints.
 
         :param endpoint: the endpoint to protect
         """
         def decorator(f):
-            self.admin.secure_endpoint("%s_%s" % (self.endpoint, endpoint), f,
-                http_code)
+            self.admin.secure_path(".%s_%s" % (self.endpoint,
+                path.lstrip('.')), f, http_code)
             return f
         return decorator
 

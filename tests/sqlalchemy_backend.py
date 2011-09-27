@@ -135,11 +135,11 @@ class AutoModelAdminModuleTest(BaseTest):
 
     def test_secure_endpoint_function(self):
 
-        @self.book_module.secure_endpoint('list')
+        @self.book_module.secure_path('list')
         def secure():
             return False
 
-        self.assertIn("%s_%s" % (self.book_module.endpoint, 'list'),
+        self.assertIn(".%s_%s" % (self.book_module.endpoint, 'list'),
             admin.secure_functions)
         r = self.client.get(url_for('admin.book_list'))
         self.assertEqual(r.status_code, 403)
