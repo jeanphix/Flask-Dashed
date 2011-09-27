@@ -5,11 +5,15 @@ from flaskext.testing import TestCase
 from flask_dashed.admin import Admin, AdminModule
 
 
-class AdminTest(TestCase):
+class DashedTestCase(TestCase):
+
     def create_app(self):
         app = Flask(__name__)
         self.admin = Admin(app)
         return app
+
+
+class AdminTest(DashedTestCase):
 
     def test_main_dashboard_view(self):
         r = self.client.get(self.admin.navigation[0]['url'])
@@ -24,7 +28,7 @@ class AdminTest(TestCase):
         )
 
     def test_register_node(self):
-        node = self.admin.register_node('first_node', 'first node')
+        self.admin.register_node('first_node', 'first node')
         self.assertEqual(len(self.admin.registered_nodes), 1)
 
     def test_register_node_wrong_parent(self):
@@ -35,16 +39,16 @@ class AdminTest(TestCase):
         )
 
     def test_register_node_with_parent(self):
-        node = self.admin.register_node('first_node', 'first node')
-        node = self.admin.register_node('child_node', 'child node',
+        self.admin.register_node('first_node', 'first node')
+        self.admin.register_node('child_node', 'child node',
             parent='first_node')
         self.assertEqual(len(self.admin.registered_nodes), 2)
 
     def test_navigation(self):
-        node = self.admin.register_node('first_root_node', 'first node')
-        node = self.admin.register_node('first_child_node', 'child node',
+        self.admin.register_node('first_root_node', 'first node')
+        self.admin.register_node('first_child_node', 'child node',
             parent='first_root_node')
-        node = self.admin.register_node('second_root_node', 'second node')
+        self.admin.register_node('second_root_node', 'second node')
 
         values = [{
             'url': '/admin/', 'children': [], 'class': 'main-dashboard',

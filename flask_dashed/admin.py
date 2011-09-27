@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import odict
 
-from flask import Blueprint, url_for
+from flask import Blueprint, url_for, request, abort
 from views import DashboardView, ObjectListView, ObjectFormView
 from views import ObjectDeleteView
 from dashboard import default_dashboard
@@ -41,7 +41,7 @@ class AdminNode(object):
         """Construct new AdminNode instance.
 
         :param admin: the parent admin object
-        :param short_title: the short module title use un navigation
+        :param short_title: the short module title use on navigation
             & breadcrumbs
         :param title: the long title
         """
@@ -53,6 +53,8 @@ class AdminNode(object):
 
 class Admin(object):
     """Class that provides a way to add admin interface to Flask applications.
+
+    @TODO: need to write something better for endpoint factories
     """
     def __init__(self, app, url_prefix="/admin",
             main_dashboard=default_dashboard, blue_print=admin):
@@ -60,7 +62,15 @@ class Admin(object):
         self.app = app
         self.blue_print = blue_print
         self.url_prefix = url_prefix
-        # Adds default main dashboard
+        self.secure_functions = {}
+
+        @self.blue_print.before_request
+        def before_request():
+            """Checks security for current endpoint."""
+            endpoint = request.url_rule.endpoint\
+                .lstrip("%s." % self.blue_print.name)
+            self.check_endpoint_security(endpoint)
+
         self.blue_print.add_url_rule('/', view_func=DashboardView.as_view(
             'dashboard', dashboard=self.main_dashboard))
         self.app.register_blueprint(admin, url_prefix=url_prefix)
@@ -100,11 +110,11 @@ class Admin(object):
         """
         depth = {}
         depth[0] = {
-                'class': 'main-dashboard',
-                'short_title': 'dashboard',
-                'title': 'Go to main dashboard',
-                'url': url_for('%s.dashboard' % self.blue_print.name),
-                'children': [],
+            'class': 'main-dashboard',
+            'short_title': 'dashboard',
+            'title': 'Go to main dashboard',
+            'url': url_for('%s.dashboard' % self.blue_print.name),
+            'children': [],
         }
         navigation = [depth[0]]
         for path in self.registered_nodes:
@@ -127,6 +137,28 @@ class Admin(object):
                 parent = depth[level - 1]
                 parent['children'].append(depth[level])
         return navigation
+
+    def secure_endpoint(self, endpoint, function, http_code=403):
+        """Gives a way to secure specific endpoint.
+
+        :param endpoint: the endpoint to protect
+        :param function: the function to execute
+        :param http_code: the http code response
+        """
+        if endpoint in self.secure_functions:
+            self.secure_functions[endpoint].append((function, http_code,))
+        else:
+            self.secure_functions[endpoint] = [(function, http_code,)]
+
+    def check_endpoint_security(self, endpoint):
+        """Checks security for specific and point.
+
+        :param endpoint: the endpoint to check
+        """
+        if endpoint in self.secure_functions:
+            for function, http_code in self.secure_functions[endpoint]:
+                if not function():
+                    return abort(http_code)
 
 
 class AdminModule(AdminNode):
@@ -167,6 +199,17 @@ class AdminModule(AdminNode):
         """
         raise NotImplementedError('Admin module class must provide'
             + ' register_rules()')
+
+    def secure_endpoint(self, endpoint, http_code=403):
+        """Gives a way to secure endpoints.
+
+        :param endpoint: the endpoint to protect
+        """
+        def decorator(f):
+            self.admin.secure_endpoint("%s_%s" % (self.endpoint, endpoint), f,
+                http_code)
+            return f
+        return decorator
 
 
 class ObjectAdminModule(AdminModule):

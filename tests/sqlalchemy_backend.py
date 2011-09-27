@@ -5,11 +5,10 @@ import odict
 from flask import Flask, url_for
 from flaskext.testing import TestCase
 from flaskext.sqlalchemy import SQLAlchemy
-from flaskext.dashed.admin import Admin, ObjectAdminModule
-from flaskext.dashed.ext.sqlalchemy import ModelAdminModule
+from flask_dashed.admin import Admin, ObjectAdminModule
+from flask_dashed.ext.sqlalchemy import ModelAdminModule
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.ext.sqlalchemy.orm import model_form
-from sqlalchemy.orm import aliased, contains_eager, backref
+from sqlalchemy.orm import aliased, contains_eager
 
 
 app = Flask(__name__)
@@ -30,7 +29,7 @@ class Book(db.Model):
     title = db.Column(db.String(255))
     year = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
-    author = db.relationship(Author, primaryjoin=author_id==Author.id,
+    author = db.relationship(Author, primaryjoin=author_id == Author.id,
         backref="books")
 
 
@@ -38,39 +37,63 @@ class BaseTest(TestCase):
     def setUp(self):
         db.create_all()
         alain_fournier = Author(name=u"Alain Fournier")
-        db.session.add(Book(title=u"Le grand Meaulnes", author=alain_fournier, year=1913))
-        db.session.add(Book(title=u"Miracles", author=alain_fournier, year=1924))
-        db.session.add(Book(title=u"Lettres à sa famille", author=alain_fournier, year=1929))
-        db.session.add(Book(title=u"Lettres au petit B.", author=alain_fournier, year=1930))
+        db.session.add(Book(title=u"Le grand Meaulnes",
+            author=alain_fournier, year=1913))
+        db.session.add(Book(title=u"Miracles",
+            author=alain_fournier, year=1924))
+        db.session.add(Book(title=u"Lettres à sa famille",
+            author=alain_fournier, year=1929))
+        db.session.add(Book(title=u"Lettres au petit B.",
+            author=alain_fournier, year=1930))
 
         charles_baudelaire = Author(name=u"Charles Baudelaire")
-        db.session.add(Book(title=u"La Fanfarlo", author=charles_baudelaire, year=1847))
-        db.session.add(Book(title=u"Du vin et du haschisch", author=charles_baudelaire, year=1851))
-        db.session.add(Book(title=u"Fusées", author=charles_baudelaire, year=1851))
-        db.session.add(Book(title=u"L'Art romantique", author=charles_baudelaire, year=1852))
-        db.session.add(Book(title=u"Morale du joujou", author=charles_baudelaire, year=1853))
-        db.session.add(Book(title=u"Exposition universelle", author=charles_baudelaire, year=1855))
-        db.session.add(Book(title=u"Les Fleurs du mal", author=charles_baudelaire, year=1857))
-        db.session.add(Book(title=u"Le Poème du haschisch", author=charles_baudelaire, year=1858))
-        db.session.add(Book(title=u"Les Paradis artificiels", author=charles_baudelaire, year=1860))
-        db.session.add(Book(title=u"La Chevelure", author=charles_baudelaire, year=1861))
-        db.session.add(Book(title=u"Réflexions sur quelques-uns de mes contemporains", author=charles_baudelaire, year=1861))
+        db.session.add(Book(title=u"La Fanfarlo",
+            author=charles_baudelaire, year=1847))
+        db.session.add(Book(title=u"Du vin et du haschisch",
+            author=charles_baudelaire, year=1851))
+        db.session.add(Book(title=u"Fusées",
+            author=charles_baudelaire, year=1851))
+        db.session.add(Book(title=u"L'Art romantique",
+            author=charles_baudelaire, year=1852))
+        db.session.add(Book(title=u"Morale du joujou",
+            author=charles_baudelaire, year=1853))
+        db.session.add(Book(title=u"Exposition universelle",
+            author=charles_baudelaire, year=1855))
+        db.session.add(Book(title=u"Les Fleurs du mal",
+            author=charles_baudelaire, year=1857))
+        db.session.add(Book(title=u"Le Poème du haschisch",
+            author=charles_baudelaire, year=1858))
+        db.session.add(Book(title=u"Les Paradis artificiels",
+            author=charles_baudelaire, year=1860))
+        db.session.add(Book(title=u"La Chevelure",
+            author=charles_baudelaire, year=1861))
+        db.session.add(Book(title=u"Réflexions sur quelques-uns de "
+            + "mes contemporains", author=charles_baudelaire, year=1861))
 
         albert_camus = Author(name=u"Albert Camus")
-        db.session.add(Book(title=u"Révolte dans les Asturies", author=albert_camus, year=1936))
-        db.session.add(Book(title=u"L'Envers et l'Endroit", author=albert_camus, year=1937))
+        db.session.add(Book(title=u"Révolte dans les Asturies",
+            author=albert_camus, year=1936))
+        db.session.add(Book(title=u"L'Envers et l'Endroit",
+            author=albert_camus, year=1937))
         db.session.add(Book(title=u"Caligula", author=albert_camus, year=1938))
         db.session.add(Book(title=u"Noces", author=albert_camus, year=1939))
-        db.session.add(Book(title=u"Le Mythe de Sisyphe", author=albert_camus, year=1942))
-        db.session.add(Book(title=u"L'Étranger", author=albert_camus, year=1942))
-        db.session.add(Book(title=u"Le Malentendu", author=albert_camus, year=1944))
+        db.session.add(Book(title=u"Le Mythe de Sisyphe",
+            author=albert_camus, year=1942))
+        db.session.add(Book(title=u"L'Étranger",
+            author=albert_camus, year=1942))
+        db.session.add(Book(title=u"Le Malentendu",
+            author=albert_camus, year=1944))
         db.session.add(Book(title=u"La Peste", author=albert_camus, year=1947))
-        db.session.add(Book(title=u"L'État de siège", author=albert_camus, year=1948))
-        db.session.add(Book(title=u"Les Justes", author=albert_camus, year=1949))
-        db.session.add(Book(title=u"L'Homme révolté", author=albert_camus, year=1951))
+        db.session.add(Book(title=u"L'État de siège",
+            author=albert_camus, year=1948))
+        db.session.add(Book(title=u"Les Justes",
+            author=albert_camus, year=1949))
+        db.session.add(Book(title=u"L'Homme révolté",
+            author=albert_camus, year=1951))
         db.session.add(Book(title=u"L'Été", author=albert_camus, year=1954))
         db.session.add(Book(title=u"La Chute", author=albert_camus, year=1956))
-        db.session.add(Book(title=u"L'Exil et le Royaume", author=albert_camus, year=1957))
+        db.session.add(Book(title=u"L'Exil et le Royaume",
+            author=albert_camus, year=1957))
 
         db.session.commit()
 
@@ -80,7 +103,7 @@ class BaseTest(TestCase):
 
 
 class AutoModelAdminModuleTest(BaseTest):
-    
+
     class AutoBookModule(ModelAdminModule):
         model = Book
 
@@ -98,10 +121,6 @@ class AutoModelAdminModuleTest(BaseTest):
         objects = self.book_module.get_object_list()
         self.assertEqual(len(objects), ObjectAdminModule.list_per_page)
 
-    def test_get_objects(self):
-        objects = self.book_module.get_object_list()
-        self.assertEqual(len(objects), ObjectAdminModule.list_per_page)
-
     def test_count_list(self):
         self.assertEqual(self.book_module.count_list(), Book.query.count())
 
@@ -110,14 +129,26 @@ class AutoModelAdminModuleTest(BaseTest):
         self.assertEqual(r.status_code, 200)
 
     def test_edit_view(self):
-        r = self.client.get(url_for('admin.book_edit', 
+        r = self.client.get(url_for('admin.book_edit',
             pk=Book.query.first().id))
         self.assertEqual(r.status_code, 200)
+
+    def test_secure_endpoint_function(self):
+
+        @self.book_module.secure_endpoint('list')
+        def secure():
+            return False
+
+        self.assertIn("%s_%s" % (self.book_module.endpoint, 'list'),
+            self.admin.secure_functions)
+        r = self.client.get(url_for('admin.book_list'))
+        self.assertEqual(r.status_code, 403)
 
 
 class BookForm(wtforms.Form):
     title = wtforms.TextField('Title', [wtforms.validators.required()])
-    author =  QuerySelectField(query_factory=Author.query.all, allow_blank=True)
+    author = QuerySelectField(query_factory=Author.query.all,
+        allow_blank=True)
 
 
 class ExplicitModelAdminModuleTest(BaseTest):
@@ -133,7 +164,8 @@ class ExplicitModelAdminModuleTest(BaseTest):
             ('id', {'label': 'id', 'column': Book.id}),
             ('title', {'label': 'book title', 'column': Book.title}),
             ('year', {'label': 'year', 'column': Book.year}),
-            ('author.name', {'label': 'author name', 'column': author_alias.name}),
+            ('author.name', {'label': 'author name',
+                'column': author_alias.name}),
         ))
         list_title = 'books list'
 
