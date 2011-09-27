@@ -14,6 +14,7 @@ from sqlalchemy.orm import aliased, contains_eager
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
+admin = Admin(app)
 
 
 class Author(db.Model):
@@ -108,8 +109,7 @@ class AutoModelAdminModuleTest(BaseTest):
         model = Book
 
     def create_app(self):
-        self.admin = Admin(app)
-        self.book_module = self.admin.register_module(self.AutoBookModule,
+        self.book_module = admin.register_module(self.AutoBookModule,
             '/book', 'book', 'auto generated book module')
         return app
 
@@ -140,7 +140,7 @@ class AutoModelAdminModuleTest(BaseTest):
             return False
 
         self.assertIn("%s_%s" % (self.book_module.endpoint, 'list'),
-            self.admin.secure_functions)
+            admin.secure_functions)
         r = self.client.get(url_for('admin.book_list'))
         self.assertEqual(r.status_code, 403)
 
@@ -180,8 +180,7 @@ class ExplicitModelAdminModuleTest(BaseTest):
         form_class = BookForm
 
     def create_app(self):
-        self.admin = Admin(app)
-        self.book_module = self.admin.register_module(self.BookModule,
+        self.book_module = admin.register_module(self.BookModule,
             '/book', 'book', 'auto generated book module')
         return app
 

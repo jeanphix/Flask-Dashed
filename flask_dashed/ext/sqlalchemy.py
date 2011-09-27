@@ -82,10 +82,10 @@ class ModelAdminModule(ObjectAdminModule):
         """
         return [
             ('edit', 'edit', 'Edit object', url_for(
-                "%s.%s_edit" % (self.admin.blue_print.name, self.endpoint),
+                "%s.%s_edit" % (self.admin.blueprint.name, self.endpoint),
                 pk=object.id)),
             ('delete', 'delete', 'Delete object', url_for(
-                "%s.%s_delete" % (self.admin.blue_print.name, self.endpoint),
+                "%s.%s_delete" % (self.admin.blueprint.name, self.endpoint),
                 pk=object.id)),
         ]
 

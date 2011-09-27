@@ -7,10 +7,6 @@ from views import ObjectDeleteView
 from dashboard import default_dashboard
 
 
-admin = Blueprint('admin', __name__, static_folder='static',
-    template_folder='templates')
-
-
 def recursive_getattr(obj, attr):
     """Returns object related attributes, as it's a template filter None
     is return when attribute doesn't exists.
@@ -57,23 +53,24 @@ class Admin(object):
     @TODO: need to write something better for endpoint factories
     """
     def __init__(self, app, url_prefix="/admin",
-            main_dashboard=default_dashboard, blue_print=admin):
+            main_dashboard=default_dashboard, endpoint='admin'):
+        self.blueprint = Blueprint(endpoint, __name__,
+            static_folder='static', template_folder='templates')
         self.register_main_dashboard(main_dashboard)
         self.app = app
-        self.blue_print = blue_print
         self.url_prefix = url_prefix
         self.secure_functions = {}
 
-        @self.blue_print.before_request
+        @self.blueprint.before_request
         def before_request():
             """Checks security for current endpoint."""
             endpoint = request.url_rule.endpoint\
-                .lstrip("%s." % self.blue_print.name)
+                .lstrip("%s." % self.blueprint.name)
             self.check_endpoint_security(endpoint)
 
-        self.blue_print.add_url_rule('/', view_func=DashboardView.as_view(
+        self.blueprint.add_url_rule('/', view_func=DashboardView.as_view(
             'dashboard', dashboard=self.main_dashboard))
-        self.app.register_blueprint(admin, url_prefix=url_prefix)
+        self.app.register_blueprint(self.blueprint, url_prefix=url_prefix)
         self.registered_nodes = odict.odict()
         # Registers recursive_getattr filter
         self.app.jinja_env.filters['recursive_getattr'] = recursive_getattr
@@ -113,7 +110,7 @@ class Admin(object):
             'class': 'main-dashboard',
             'short_title': 'dashboard',
             'title': 'Go to main dashboard',
-            'url': url_for('%s.dashboard' % self.blue_print.name),
+            'url': url_for('%s.dashboard' % self.blueprint.name),
             'children': [],
         }
         navigation = [depth[0]]
@@ -188,7 +185,7 @@ class AdminModule(AdminNode):
         :param endpoint: the endpoint
         :param view_func: the view
         """
-        full_endpoint = "%s.%s_%s" % (self.admin.blue_print.name,
+        full_endpoint = "%s.%s_%s" % (self.admin.blueprint.name,
             self.endpoint, endpoint)
         self.admin.app.add_url_rule("%s%s%s" % (self.admin.url_prefix,
             self.url_prefix, rule), full_endpoint, view_func, **options)
