@@ -40,6 +40,7 @@ class AdminNode(object):
         :param short_title: the short module title use on navigation
             & breadcrumbs
         :param title: the long title
+        :param parent: the parent navigation path
         """
         self.admin = admin
         self.endpoint = endpoint
@@ -53,6 +54,13 @@ class Admin(object):
     """
     def __init__(self, app, url_prefix="/admin",
             main_dashboard=default_dashboard, endpoint='admin'):
+        """Constructs new Admin instance.
+
+        :param app: the Flask application
+        :param url_prefix: the url prefix
+        :param main_dashboard: the main dashboard object
+        :param endpoint: the endpoint
+        """
         self.blueprint = Blueprint(endpoint, __name__,
             static_folder='static', template_folder='templates')
         self.register_main_dashboard(main_dashboard)
