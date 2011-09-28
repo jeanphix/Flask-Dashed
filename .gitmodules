@@ -1,3 +1,6 @@
 [submodule "docs/_themes"]
 	path = docs/_themes
 	url = git://github.com/mitsuhiko/flask-sphinx-themes.git
+[submodule "docs/build/html"]
+	path = docs/build/html
+	url = git@github.com:jean-philippe/Flask-Dashed.git
