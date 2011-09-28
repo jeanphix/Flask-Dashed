@@ -2,7 +2,9 @@ Installation
 ------------
 
     pip install -e git+git://github.com/jean-philippe/Flask-Dashed.git#egg=Flask-Dashed
+
     cd Flask-Dashed
+
     python setup.py install
 
 
