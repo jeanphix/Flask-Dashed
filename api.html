@@ -56,8 +56,22 @@
 <h2>Admin Object<a class="headerlink" href="#admin-object" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="admin.Admin">
-<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">Admin</tt><big>(</big><em>app</em>, <em>url_prefix='/admin'</em>, <em>main_dashboard=&lt;dashboard.Dashboard instance at 0x31b3518&gt;</em>, <em>endpoint='admin'</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">Admin</tt><big>(</big><em>app</em>, <em>url_prefix='/admin'</em>, <em>main_dashboard=&lt;dashboard.Dashboard instance at 0x2be35a8&gt;</em>, <em>endpoint='admin'</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that provides a way to add admin interface to Flask applications.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>app</strong> &#8211; the Flask application</li>
+<li><strong>url_prefix</strong> &#8211; the url prefix</li>
+<li><strong>main_dashboard</strong> &#8211; the main dashboard object</li>
+<li><strong>endpoint</strong> &#8211; the endpoint</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="admin.Admin.add_endpoint_security">
 <tt class="descname">add_endpoint_security</tt><big>(</big><em>endpoint</em>, <em>function</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.add_endpoint_security"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.add_endpoint_security" title="Permalink to this definition">¶</a></dt>
@@ -147,12 +161,42 @@ recursive_getattr(a, 'b.d') =&gt; None</pre>
 <em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminNode</tt><big>(</big><em>admin</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>An AdminNode just act as navigation container, it doesn&#8217;t provide any
 rules.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>admin</strong> &#8211; the parent admin object</li>
+<li><strong>short_title</strong> &#8211; the short module title use on navigation
+&amp; breadcrumbs</li>
+<li><strong>title</strong> &#8211; the long title</li>
+<li><strong>parent</strong> &#8211; the parent navigation path</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="admin.AdminModule">
 <em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminModule</tt><big>(</big><em>admin</em>, <em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that provides a way to create simple admin module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>admin</strong> &#8211; the parent admin object</li>
+<li><strong>url_prefix</strong> &#8211; the url prefix</li>
+<li><strong>short_title</strong> &#8211; the short module title use un navigation
+&amp; breadcrumbs</li>
+<li><strong>title</strong> &#8211; the long title</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="admin.AdminModule.add_url_rule">
 <tt class="descname">add_url_rule</tt><big>(</big><em>rule</em>, <em>endpoint</em>, <em>view_func=None</em>, <em>**options</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.add_url_rule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.add_url_rule" title="Permalink to this definition">¶</a></dt>
