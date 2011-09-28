@@ -1,0 +1,377 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Api &mdash; Flask_Dashed v0.1a documentation</title>
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask_Dashed v0.1a documentation" href="index.html" />
+    <link rel="prev" title="Welcome to Flask_Dashed’s documentation!" href="index.html" />
+   
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Flask_Dashed’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask_Dashed v0.1a documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api">
+<h1>Api<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="admin-object">
+<h2>Admin Object<a class="headerlink" href="#admin-object" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="admin.Admin">
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">Admin</tt><big>(</big><em>app</em>, <em>url_prefix='/admin'</em>, <em>main_dashboard=&lt;dashboard.Dashboard instance at 0x23b0638&gt;</em>, <em>endpoint='admin'</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that provides a way to add admin interface to Flask applications.</p>
+<dl class="method">
+<dt id="admin.Admin.add_endpoint_security">
+<tt class="descname">add_endpoint_security</tt><big>(</big><em>endpoint</em>, <em>function</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.add_endpoint_security"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.add_endpoint_security" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers security function for given path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>endpoint</strong> &#8211; the endpoint to secure</li>
+<li><strong>http_code</strong> &#8211; the response http code</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Function :</th><td class="field-body"><p class="first last">the security function</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.Admin.check_endpoint_security">
+<tt class="descname">check_endpoint_security</tt><big>(</big><em>endpoint</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.check_endpoint_security"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.check_endpoint_security" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks security for specific and point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>endpoint</strong> &#8211; the endpoint to check</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="admin.Admin.navigation">
+<tt class="descname">navigation</tt><a class="reference internal" href="_modules/admin.html#Admin.navigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.navigation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns main navigation elements as nested dict.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.Admin.register_module">
+<tt class="descname">register_module</tt><big>(</big><em>module_class</em>, <em>rule</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.register_module"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.register_module" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers new module to current admin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.Admin.secure_endpoint">
+<tt class="descname">secure_endpoint</tt><big>(</big><em>endpoint</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.secure_endpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.secure_endpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a way to secure specific path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>endpoint</strong> &#8211; the endpoint to protect</li>
+<li><strong>http_code</strong> &#8211; the response http code</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="admin-modules">
+<h2>Admin Modules<a class="headerlink" href="#admin-modules" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="admin.recursive_getattr">
+<tt class="descclassname">admin.</tt><tt class="descname">recursive_getattr</tt><big>(</big><em>obj</em>, <em>attr</em><big>)</big><a class="reference internal" href="_modules/admin.html#recursive_getattr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.recursive_getattr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns object related attributes, as it&#8217;s a template filter None
+is return when attribute doesn&#8217;t exists.</p>
+<p>eg:</p>
+<div class="highlight-python"><pre>a = object()
+a.b = object()
+a.b.c = 1
+recursive_getattr(a, 'b.c') =&gt; 1
+recursive_getattr(a, 'b.d') =&gt; None</pre>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="admin.AdminNode">
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminNode</tt><big>(</big><em>admin</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>An AdminNode just act as navigation container, it doesn&#8217;t provide any
+rules.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="admin.AdminModule">
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminModule</tt><big>(</big><em>admin</em>, <em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that provides a way to create simple admin module.</p>
+<dl class="method">
+<dt id="admin.AdminModule.add_url_rule">
+<tt class="descname">add_url_rule</tt><big>(</big><em>rule</em>, <em>endpoint</em>, <em>view_func=None</em>, <em>**options</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.add_url_rule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.add_url_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a routing rule to the application from relative endpoint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rule</strong> &#8211; the rule</li>
+<li><strong>endpoint</strong> &#8211; the endpoint</li>
+<li><strong>view_func</strong> &#8211; the view</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.AdminModule.register_rules">
+<tt class="descname">register_rules</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.register_rules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.register_rules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers all module rules after initialization.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.AdminModule.secure_endpoint">
+<tt class="descname">secure_endpoint</tt><big>(</big><em>endpoint</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.secure_endpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.secure_endpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a way to secure endpoints.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>endpoint</strong> &#8211; the endpoint to protect</li>
+<li><strong>http_code</strong> &#8211; the response http code</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="sqlalchemy-extension">
+<h2>SQLAlchemy extension<a class="headerlink" href="#sqlalchemy-extension" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ext.sqlalchemy.ModelAdminModule">
+<em class="property">class </em><tt class="descclassname">ext.sqlalchemy.</tt><tt class="descname">ModelAdminModule</tt><big>(</big><em>admin</em>, <em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQLAlchemy model admin module builder.</p>
+<dl class="method">
+<dt id="ext.sqlalchemy.ModelAdminModule.count_list">
+<tt class="descname">count_list</tt><big>(</big><em>search=None</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.count_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.count_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts filtered list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>search</strong> &#8211; the string for quick search</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ext.sqlalchemy.ModelAdminModule.create_object">
+<tt class="descname">create_object</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.create_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.create_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>New object instance new object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ext.sqlalchemy.ModelAdminModule.delete_object">
+<tt class="descname">delete_object</tt><big>(</big><em>object</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.delete_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.delete_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; the object to delete</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ext.sqlalchemy.ModelAdminModule.edit_query_factory">
+<tt class="descname">edit_query_factory</tt><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.edit_query_factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.edit_query_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns query for object edition.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ext.sqlalchemy.ModelAdminModule.form_view">
+<tt class="descname">form_view</tt><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.form_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">ObjectFormView</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ext.sqlalchemy.ModelAdminModule.get_actions_for_object">
+<tt class="descname">get_actions_for_object</tt><big>(</big><em>object</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.get_actions_for_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.get_actions_for_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8220;Returns actions for object as and tuple list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; the object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ext.sqlalchemy.ModelAdminModule.get_object">
+<tt class="descname">get_object</tt><big>(</big><em>pk</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.get_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.get_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets back object by primary key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pk</strong> &#8211; the object primary key</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ext.sqlalchemy.ModelAdminModule.get_object_list">
+<tt class="descname">get_object_list</tt><big>(</big><em>search=None</em>, <em>order_by_name=None</em>, <em>order_by_direction=None</em>, <em>offset=None</em>, <em>limit=None</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.get_object_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.get_object_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns ordered, filtered and limited query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>search</strong> &#8211; the string for search filter</li>
+<li><strong>order_by_name</strong> &#8211; the field name to order by</li>
+<li><strong>order_by_direction</strong> &#8211; the field direction</li>
+<li><strong>offset</strong> &#8211; the offset position</li>
+<li><strong>limit</strong> &#8211; the limit</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ext.sqlalchemy.ModelAdminModule.list_query_factory">
+<tt class="descname">list_query_factory</tt><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.list_query_factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.list_query_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns non filtered list query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ext.sqlalchemy.ModelAdminModule.save_object">
+<tt class="descname">save_object</tt><big>(</big><em>object</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule.save_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule.save_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; the object to save</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Api</a><ul>
+<li><a class="reference internal" href="#admin-object">Admin Object</a></li>
+<li><a class="reference internal" href="#admin-modules">Admin Modules</a></li>
+<li><a class="reference internal" href="#sqlalchemy-extension">SQLAlchemy extension</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Flask_Dashed&#8217;s documentation!</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011, jean-philippe serafin.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

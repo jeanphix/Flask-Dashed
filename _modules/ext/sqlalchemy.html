@@ -1,0 +1,228 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ext.sqlalchemy &mdash; Flask_Dashed v0.1a documentation</title>
+    <link rel="stylesheet" href="../../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Flask_Dashed v0.1a documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <link media="only screen and (max-device-width: 480px)" href="../../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../index.html">Flask_Dashed v0.1a documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for ext.sqlalchemy</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">url_for</span>
+<span class="kn">from</span> <span class="nn">flask_dashed.admin</span> <span class="kn">import</span> <span class="n">ObjectAdminModule</span>
+<span class="kn">from</span> <span class="nn">flask_dashed.views</span> <span class="kn">import</span> <span class="n">ObjectFormView</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql.expression</span> <span class="kn">import</span> <span class="n">or_</span>
+<span class="kn">from</span> <span class="nn">wtforms.ext.sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">model_form</span>
+
+
+<div class="viewcode-block" id="ModelAdminModule"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule">[docs]</a><span class="k">class</span> <span class="nc">ModelAdminModule</span><span class="p">(</span><span class="n">ObjectAdminModule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;SQLAlchemy model admin module builder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">form_view</span> <span class="o">=</span> <span class="n">ObjectFormView</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">db_session</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cls</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;ModelAdminModule must provide `model` attribute&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cls</span><span class="o">.</span><span class="n">list_fields</span><span class="p">:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">list_fields</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">__table__</span><span class="o">.</span><span class="n">_columns</span><span class="p">:</span>
+                <span class="n">cls</span><span class="o">.</span><span class="n">list_fields</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="n">column</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s">&#39;column&#39;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">column</span><span class="o">.</span><span class="n">name</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cls</span><span class="o">.</span><span class="n">form_class</span><span class="p">:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">form_class</span> <span class="o">=</span> <span class="n">model_form</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ModelAdminModule</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ModelAdminModule.get_object_list"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.get_object_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_object_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">order_by_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">order_by_direction</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns ordered, filtered and limited query.</span>
+
+<span class="sd">        :param search: the string for search filter</span>
+<span class="sd">        :param order_by_name: the field name to order by</span>
+<span class="sd">        :param order_by_direction: the field direction</span>
+<span class="sd">        :param offset: the offset position</span>
+<span class="sd">        :param limit: the limit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span> <span class="k">if</span> <span class="n">limit</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_per_page</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_filtered_query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_query_factory</span><span class="p">,</span> <span class="n">search</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">order_by_name</span> <span class="ow">and</span> <span class="n">order_by_direction</span><span class="p">)</span>\
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_by</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">order_by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_by</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">order_by_direction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_by</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">order_by_name</span> <span class="ow">and</span> <span class="n">order_by_direction</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_fields</span><span class="p">[</span><span class="n">order_by_name</span><span class="p">][</span><span class="s">&#39;column&#39;</span><span class="p">],</span>
+                        <span class="n">order_by_direction</span><span class="p">)()</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Order by field must be provided in &#39;</span> <span class="o">+</span>
+                    <span class="s">&#39;list_fields with a column key&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ModelAdminModule.count_list"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.count_list">[docs]</a>    <span class="k">def</span> <span class="nf">count_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Counts filtered list.</span>
+
+<span class="sd">        :param search: the string for quick search</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_filtered_query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_query_factory</span><span class="p">,</span> <span class="n">search</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ModelAdminModule.list_query_factory"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.list_query_factory">[docs]</a>    <span class="k">def</span> <span class="nf">list_query_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns non filtered list query.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">query</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ModelAdminModule.edit_query_factory"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.edit_query_factory">[docs]</a>    <span class="k">def</span> <span class="nf">edit_query_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns query for object edition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span>
+</div>
+<div class="viewcode-block" id="ModelAdminModule.get_actions_for_object"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.get_actions_for_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_actions_for_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;Returns actions for object as and tuple list.</span>
+
+<span class="sd">        :param object: the object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s">&#39;edit&#39;</span><span class="p">,</span> <span class="s">&#39;edit&#39;</span><span class="p">,</span> <span class="s">&#39;Edit object&#39;</span><span class="p">,</span> <span class="n">url_for</span><span class="p">(</span>
+                <span class="s">&quot;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">_edit&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">blueprint</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">),</span>
+                <span class="n">pk</span><span class="o">=</span><span class="nb">object</span><span class="o">.</span><span class="n">id</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s">&#39;delete&#39;</span><span class="p">,</span> <span class="s">&#39;delete&#39;</span><span class="p">,</span> <span class="s">&#39;Delete object&#39;</span><span class="p">,</span> <span class="n">url_for</span><span class="p">(</span>
+                <span class="s">&quot;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">_delete&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">blueprint</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">),</span>
+                <span class="n">pk</span><span class="o">=</span><span class="nb">object</span><span class="o">.</span><span class="n">id</span><span class="p">)),</span>
+        <span class="p">]</span>
+</div>
+<div class="viewcode-block" id="ModelAdminModule.get_object"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.get_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets back object by primary key.</span>
+
+<span class="sd">        :param pk: the object primary key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_query_factory</span><span class="p">(</span><span class="n">pk</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ModelAdminModule.create_object"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.create_object">[docs]</a>    <span class="k">def</span> <span class="nf">create_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;New object instance new object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ModelAdminModule.save_object"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.save_object">[docs]</a>    <span class="k">def</span> <span class="nf">save_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves object.</span>
+
+<span class="sd">        :param object: the object to save</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ModelAdminModule.delete_object"><a class="viewcode-back" href="../../api.html#ext.sqlalchemy.ModelAdminModule.delete_object">[docs]</a>    <span class="k">def</span> <span class="nf">delete_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Deletes object.</span>
+
+<span class="sd">        :param object: the object to delete</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">_get_filtered_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Filters query.</span>
+
+<span class="sd">        :param query: the non filtered query</span>
+<span class="sd">        :param search: the string for quick search</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">search</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchable_fields</span><span class="p">:</span>
+            <span class="n">condition</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchable_fields</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_fields</span>\
+                        <span class="ow">and</span> <span class="s">&#39;column&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_fields</span><span class="p">[</span><span class="n">field</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">condition</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_fields</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s">&#39;column&#39;</span><span class="p">]</span><span class="o">.</span>\
+                            <span class="n">contains</span><span class="p">(</span><span class="n">search</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">condition</span> <span class="o">=</span> <span class="n">or_</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span>\
+                            <span class="n">list_fields</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s">&#39;column&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">search</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Searchables fields must be in &#39;</span> <span class="o">+</span>
+                        <span class="s">&#39;list_fields with specified column.&#39;</span><span class="p">)</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">query</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011, jean-philippe serafin.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>
