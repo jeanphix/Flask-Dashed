@@ -32,16 +32,14 @@ def recursive_getattr(obj, attr):
 class AdminNode(object):
     """An AdminNode just act as navigation container, it doesn't provide any
     rules.
+
+    :param admin: the parent admin object
+    :param short_title: the short module title use on navigation
+        & breadcrumbs
+    :param title: the long title
+    :param parent: the parent navigation path
     """
     def __init__(self, admin, endpoint, short_title, title=None, parent=None):
-        """Construct new AdminNode instance.
-
-        :param admin: the parent admin object
-        :param short_title: the short module title use on navigation
-            & breadcrumbs
-        :param title: the long title
-        :param parent: the parent navigation path
-        """
         self.admin = admin
         self.endpoint = endpoint
         self.short_title = short_title
@@ -51,16 +49,14 @@ class AdminNode(object):
 
 class Admin(object):
     """Class that provides a way to add admin interface to Flask applications.
+
+    :param app: the Flask application
+    :param url_prefix: the url prefix
+    :param main_dashboard: the main dashboard object
+    :param endpoint: the endpoint
     """
     def __init__(self, app, url_prefix="/admin",
             main_dashboard=default_dashboard, endpoint='admin'):
-        """Constructs new Admin instance.
-
-        :param app: the Flask application
-        :param url_prefix: the url prefix
-        :param main_dashboard: the main dashboard object
-        :param endpoint: the endpoint
-        """
         self.blueprint = Blueprint(endpoint, __name__,
             static_folder='static', template_folder='templates')
         self.register_main_dashboard(main_dashboard)
@@ -181,17 +177,15 @@ class Admin(object):
 
 class AdminModule(AdminNode):
     """Class that provides a way to create simple admin module.
+
+    :param admin: the parent admin object
+    :param url_prefix: the url prefix
+    :param short_title: the short module title use un navigation
+        & breadcrumbs
+    :param title: the long title
     """
     def __init__(self, admin, url_prefix, endpoint, short_title, title,
             parent=None):
-        """Constructs new module instance.
-
-        :param admin: the parent admin object
-        :param url_prefix: the url prefix
-        :param short_title: the short module title use un navigation
-            & breadcrumbs
-        :param title: the long title
-        """
         self.admin = admin
         self.endpoint = endpoint
         self.short_title = short_title

@@ -1,3 +1,13 @@
+Introduction
+------------
+
+Flask-Dashed provides tools for build simple and extensible admin interface.
+
+
+.. image:: docs/_static/screen.png
+
+
+
 Installation
 ------------
 
