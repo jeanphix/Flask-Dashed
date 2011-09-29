@@ -82,6 +82,19 @@ class AdminTest(DashedTestCase):
             [parent]
         )
 
+    def test_get_full_path_for_enpoint_two_levels(self):
+        parent = self.admin.register_node('/root', 'first_root_node',
+            'first node')
+        child = self.admin.register_node('/child', 'first_child_node',
+            'child node', parent='first_root_node')
+        self.admin.register_node('/child', 'second_child_node', 'child node',
+            parent=child.path)
+        self.assertEqual(
+            self.admin.get_parents_for_path(
+                'first_root_node.first_child_node.second_child_node'),
+            [parent, child]
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
