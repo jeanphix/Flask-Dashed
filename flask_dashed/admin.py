@@ -44,7 +44,12 @@ class AdminNode(object):
         self.endpoint = endpoint
         self.short_title = short_title
         self.title = title
-        self.parent = parent
+        self._parent = parent
+
+    @property
+    def parent(self):
+        parent = self._parent
+        return self.admin.registered_nodes[parent] if parent else None
 
 
 class Admin(object):
@@ -98,7 +103,7 @@ class Admin(object):
 
     def _add_node(self, node_object, endpoint, parent=None):
         if parent and not parent in self.registered_nodes:
-            raise Exception('parent admin node doesn\'t exist')
+            raise Exception('Parent admin node not registered')
         path = "%s.%s" % (parent, endpoint) if parent else endpoint
         self.registered_nodes[path] = node_object
 
@@ -192,7 +197,7 @@ class AdminModule(AdminNode):
         self.title = title
         self.url_prefix = url_prefix
         self.rules = []
-        self.parent = parent
+        self._parent = parent
         self.register_rules()
 
     def add_url_rule(self, rule, endpoint, view_func=None, **options):
