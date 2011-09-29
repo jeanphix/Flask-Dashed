@@ -14,6 +14,8 @@ def get_next_or(url):
 
 class DashboardView(MethodView):
     """Displays user dashboard.
+
+    :param dashboard: the dashboard to display
     """
     def __init__(self, dashboard):
         self.dashboard = dashboard
@@ -26,6 +28,8 @@ class DashboardView(MethodView):
 def compute_args(request, update={}):
     """Merges all view_args and request args then update with
     user args.
+
+    :param update: the user args
     """
     args = request.view_args.copy()
     args = dict(dict(request.args.to_dict(flat=True)), **args)
@@ -35,12 +39,17 @@ def compute_args(request, update={}):
 
 class ObjectListView(MethodView):
     """Lists objects.
+
+    :param admin_module: the admin module
     """
     def __init__(self, admin_module):
         self.admin_module = admin_module
 
     def get(self, page=1):
-        """Displays object list."""
+        """Displays object list.
+
+        :param page: the current page index
+        """
         page = int(page)
         search = request.args.get('search', None)
         order_by = request.args.get('orderby', None)
@@ -81,12 +90,16 @@ class ObjectListView(MethodView):
 
 class ObjectFormView(MethodView):
     """Creates or updates object.
+
+    :param admin_module: the admin module
     """
     def __init__(self, admin_module):
         self.admin_module = admin_module
 
     def get(self, pk=None):
         """Displays form.
+
+        :param pk: the object primary key
         """
         obj, is_new = self._get_object(pk)
         form = self.admin_module.get_form(obj)
@@ -101,6 +114,8 @@ class ObjectFormView(MethodView):
 
     def post(self, pk=None):
         """Process form.
+
+        :param pk: the object primary key
         """
         obj, is_new = self._get_object(pk)
         form = self.admin_module.get_form(obj)
@@ -126,6 +141,8 @@ class ObjectFormView(MethodView):
 
     def _get_object(self, pk=None):
         """Gets object required by the form.
+
+        :param pk: the object primary key
         """
         if pk:
             obj = self.admin_module.get_object(pk)
@@ -137,11 +154,18 @@ class ObjectFormView(MethodView):
 
 
 class ObjectDeleteView(MethodView):
-    """Deletes object."""
+    """Deletes object.
+
+    :param admin_module: the admin module
+    """
     def __init__(self, admin_module):
         self.admin_module = admin_module
 
     def get(self, pk):
+        """Deletes object at given pk.
+
+        :param pk: the primary key
+        """
         obj = self.admin_module.get_object(pk)
         self.admin_module.delete_object(obj)
         flash("Object successfully deleted", "success")
