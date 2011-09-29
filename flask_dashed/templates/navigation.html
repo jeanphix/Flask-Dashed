@@ -1,7 +1,7 @@
 <nav id="main-navigation" role="navigation">
     <ul>
         {% for node in admin.navigation recursive %}
-            <li>
+            <li class="{% if node.url_path and request.path.startswith(admin.url_prefix + node.url_path) %} current{% endif %}">
                 {% if node.url %}
                     <a href="{{ node.url }}" class="{{ node.class }}" title="{{ node.title }}">
                 {% endif %}

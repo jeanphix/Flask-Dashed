@@ -58,6 +58,9 @@ body > section > div{
 #main-navigation a:hover{
     color: black;
 }
+#main-navigation .current, #main-navigation .current a{
+    color: orange;
+}
 /* Search form */
 #search-form{
     position: absolute;

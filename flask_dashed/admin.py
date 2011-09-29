@@ -58,12 +58,18 @@ class AdminNode(object):
 
     @property
     def url_path(self):
-        """Returns the full url path.
+        """Returns the url path relative to admin one.
         """
         if self.parent:
             return self.parent.url_path + self.url_prefix
         else:
             return self.url_prefix
+
+    @property
+    def parents(self):
+        """Returns full parents path.
+        """
+        pass
 
 
 class Admin(object):
@@ -146,6 +152,7 @@ class Admin(object):
             'title': 'Go to main dashboard',
             'url': url_for('%s.dashboard' % self.blueprint.name),
             'children': [],
+            'url_path': None
         }
         navigation = [depth[0]]
         for path in self.registered_nodes:
@@ -160,6 +167,7 @@ class Admin(object):
                 'short_title': module.short_title,
                 'title': 'Go to %s' % module.short_title,
                 'url': url,
+                'url_path': module.url_path,
                 'children': [],
             }
             if level == 0:
@@ -202,6 +210,20 @@ class Admin(object):
                 for function, http_code in self.secure_functions[path]:
                     if not function():
                         return abort(http_code)
+
+    def get_parents_for_path(self, path):
+        """Returns all parents node object for endpoint.
+
+        :param path: the path
+        """
+        full_path = []
+        if not path in self.registered_nodes:
+            raise Exception('Non registered endpoint')
+        for registered_path in self.registered_nodes:
+            if path.startswith(registered_path)\
+                    and not path == registered_path:
+                full_path.append(self.registered_nodes[registered_path])
+        return full_path
 
 
 class AdminModule(AdminNode):

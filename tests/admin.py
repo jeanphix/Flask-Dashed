@@ -45,7 +45,7 @@ class AdminTest(DashedTestCase):
             parent='first_node')
         self.assertEqual(len(self.admin.registered_nodes), 2)
         self.assertEqual(parent, child.parent)
-        self.assertEqual(parent.url_path, '/parent/child')
+        self.assertEqual(child.url_path, '/parent/child')
 
     def test_navigation(self):
         self.admin.register_node('/root', 'first_root_node', 'first node')
@@ -70,6 +70,17 @@ class AdminTest(DashedTestCase):
 
         self.assertEqual(len(self.admin.registered_nodes), 3)
         self.assertEqual(self.admin.navigation, values)
+
+    def test_get_full_path_for_enpoint(self):
+        parent = self.admin.register_node('/root', 'first_root_node',
+            'first node')
+        self.admin.register_node('/child', 'first_child_node', 'child node',
+            parent='first_root_node')
+        self.assertEqual(
+            self.admin.get_parents_for_path(
+                'first_root_node.first_child_node'),
+            [parent]
+        )
 
 
 if __name__ == '__main__':
