@@ -1,0 +1,20 @@
+<nav id="main-navigation" role="navigation">
+    <ul>
+        {% for node in admin.navigation recursive %}
+            <li>
+                {% if node.url %}
+                    <a href="{{ node.url }}" class="{{ node.class }}" title="{{ node.title }}">
+                {% endif %}
+                {{ node.short_title }}
+                {% if node.url %}
+                    </a>
+                {% endif %}
+                {% if node.children|length > 0 %}
+                    <ul>
+                        {{ loop(node.children) }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
