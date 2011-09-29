@@ -28,7 +28,7 @@ class AdminTest(DashedTestCase):
         )
 
     def test_register_node(self):
-        self.admin.register_node('first_node', 'first node')
+        self.admin.register_node('/first-node', 'first_node', 'first node')
         self.assertEqual(len(self.admin.registered_nodes), 1)
 
     def test_register_node_wrong_parent(self):
@@ -39,16 +39,19 @@ class AdminTest(DashedTestCase):
         )
 
     def test_register_node_with_parent(self):
-        self.admin.register_node('first_node', 'first node')
-        self.admin.register_node('child_node', 'child node',
+        parent = self.admin.register_node('/parent', 'first_node',
+            'first node')
+        child = self.admin.register_node('/child', 'child_node', 'child node',
             parent='first_node')
         self.assertEqual(len(self.admin.registered_nodes), 2)
+        self.assertEqual(parent, child.parent)
+        self.assertEqual(parent.url_path, '/parent/child')
 
     def test_navigation(self):
-        self.admin.register_node('first_root_node', 'first node')
-        self.admin.register_node('first_child_node', 'child node',
+        self.admin.register_node('/root', 'first_root_node', 'first node')
+        self.admin.register_node('/child', 'first_child_node', 'child node',
             parent='first_root_node')
-        self.admin.register_node('second_root_node', 'second node')
+        self.admin.register_node('/second', 'second_root_node', 'second node')
 
         values = [{
             'url': '/admin/', 'children': [], 'class': 'main-dashboard',

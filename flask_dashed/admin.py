@@ -34,22 +34,36 @@ class AdminNode(object):
     rules.
 
     :param admin: the parent admin object
+    :param url_prefix: the url prefix
     :param short_title: the short module title use on navigation
         & breadcrumbs
     :param title: the long title
     :param parent: the parent navigation path
     """
-    def __init__(self, admin, endpoint, short_title, title=None, parent=None):
+    def __init__(self, admin, url_prefix, endpoint, short_title, title=None,
+            parent=None):
         self.admin = admin
+        self._parent = parent
+        self.url_prefix = url_prefix
         self.endpoint = endpoint
         self.short_title = short_title
         self.title = title
-        self._parent = parent
 
     @property
     def parent(self):
+        """Returns the parent node object.
+        """
         parent = self._parent
         return self.admin.registered_nodes[parent] if parent else None
+
+    @property
+    def url_path(self):
+        """Returns the full url path.
+        """
+        if self.parent:
+            return self.parent.url_path + self.url_prefix
+        else:
+            return self.url_prefix
 
 
 class Admin(object):
@@ -84,20 +98,30 @@ class Admin(object):
         # Registers recursive_getattr filter
         self.app.jinja_env.filters['recursive_getattr'] = recursive_getattr
 
-    def register_node(self, endpoint,  short_title, title=None, parent=None,
-            node_class=AdminNode):
+    def register_node(self, url_prefix, endpoint, short_title, title=None,
+            parent=None, node_class=AdminNode):
+        """Registers admin node.
+
+        :param url_prefix: the url prefix
+        :param endpoint: the endpoint
+        :param short_title: the short title
+        :param title: the long title
+        :param parent: the parent node path
+        :param node_class: the class for node objects
+        """
         title = short_title if not title else title
-        new_node = node_class(self, endpoint, short_title, title=None)
+        new_node = node_class(self, url_prefix, endpoint, short_title,
+            title=None, parent=parent)
         self._add_node(new_node, endpoint, parent=parent)
         return new_node
 
-    def register_module(self, module_class, rule, endpoint, short_title,
+    def register_module(self, module_class, url_prefix, endpoint, short_title,
             title=None, parent=None):
         """Registers new module to current admin.
         """
         title = short_title if not title else title
-        new_module = module_class(self, rule, endpoint, short_title, title,
-            parent=parent)
+        new_module = module_class(self, url_prefix, endpoint, short_title,
+            title, parent=parent)
         self._add_node(new_module, endpoint, parent=parent)
         return new_module
 
@@ -210,7 +234,7 @@ class AdminModule(AdminNode):
         full_endpoint = "%s.%s_%s" % (self.admin.endpoint,
             self.endpoint, endpoint)
         self.admin.app.add_url_rule("%s%s%s" % (self.admin.url_prefix,
-            self.url_prefix, rule), full_endpoint, view_func, **options)
+            self.url_path, rule), full_endpoint, view_func, **options)
         self.rules.append(full_endpoint)
 
     def register_rules(self):
