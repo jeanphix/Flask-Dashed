@@ -61,16 +61,12 @@ class AdminNode(object):
     def parents(self):
         """Returns all parent hierarchy as list.
         """
-        parents = []
-
-        def get_parent_of(child):
-            if child.parent:
-                parent = child.parent
-                parents.append(parent)
-                get_parent_of(parent)
-
-        get_parent_of(self)
-        return parents
+        if self.parent:
+            parents = list(self.parent.parents)
+            parents.append(self.parent)
+            return parents
+        else:
+            return []
 
 
 class Admin(object):
