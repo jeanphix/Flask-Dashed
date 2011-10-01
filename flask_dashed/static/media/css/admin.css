@@ -38,14 +38,14 @@ body > section h1{
     margin-top: 0;
 }
 body > section > div{
-    margin-right: 200px;
+    margin-right: 250px;
     padding-right: 5%;
     position: relative;
     clear: both;
 }
 /* Navigation */
 #main-navigation{
-    width: 200px;
+    width: 250px;
     position: absolute;
     right: 5%;
     top: 1em;
@@ -58,8 +58,8 @@ body > section > div{
 #main-navigation a:hover{
     color: black;
 }
-#main-navigation .current, #main-navigation .current a{
-    color: orange;
+#main-navigation .active > a{
+    font-weight: bold;
 }
 /* Search form */
 #search-form{

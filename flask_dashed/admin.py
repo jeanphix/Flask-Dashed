@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-import odict
 
 from flask import Blueprint, url_for, request, abort
-from views import DashboardView, ObjectListView, ObjectFormView
+from views import ObjectListView, ObjectFormView
 from views import ObjectDeleteView
-from dashboard import default_dashboard
 
 
 def recursive_getattr(obj, attr):
@@ -38,23 +36,17 @@ class AdminNode(object):
     :param short_title: the short module title use on navigation
         & breadcrumbs
     :param title: the long title
-    :param parent: the parent navigation path
+    :param parent: the parent node
     """
     def __init__(self, admin, url_prefix, endpoint, short_title, title=None,
             parent=None):
         self.admin = admin
-        self._parent = parent
+        self.parent = parent
         self.url_prefix = url_prefix
         self.endpoint = endpoint
         self.short_title = short_title
         self.title = title
-
-    @property
-    def parent(self):
-        """Returns the parent node object.
-        """
-        parent = self._parent
-        return self.admin.registered_nodes[parent] if parent else None
+        self.children = []
 
     @property
     def url_path(self):
@@ -67,9 +59,18 @@ class AdminNode(object):
 
     @property
     def parents(self):
-        """Returns full parents path.
+        """Returns all parent hierarchy as list.
         """
-        pass
+        parents = []
+
+        def get_parent_of(child):
+            if child.parent:
+                parent = child.parent
+                parents.append(parent)
+                get_parent_of(parent)
+
+        get_parent_of(self)
+        return parents
 
 
 class Admin(object):
@@ -81,10 +82,14 @@ class Admin(object):
     :param endpoint: the endpoint
     """
     def __init__(self, app, url_prefix="/admin",
-            main_dashboard=default_dashboard, endpoint='admin'):
+            main_dashboard=None, endpoint='admin'):
+
+        if not main_dashboard:
+            from dashboard import DefaultDashboard
+            main_dashboard = DefaultDashboard
+
         self.blueprint = Blueprint(endpoint, __name__,
             static_folder='static', template_folder='templates')
-        self.register_main_dashboard(main_dashboard)
         self.app = app
         self.url_prefix = url_prefix
         self.endpoint = endpoint
@@ -97,10 +102,10 @@ class Admin(object):
                 .lstrip("%s" % self.endpoint)
             self.check_endpoint_security(endpoint)
 
-        self.blueprint.add_url_rule('/', view_func=DashboardView.as_view(
-            'dashboard', dashboard=self.main_dashboard))
         self.app.register_blueprint(self.blueprint, url_prefix=url_prefix)
-        self.registered_nodes = odict.odict()
+        self.root_nodes = []
+
+        self._add_node(main_dashboard, '/', 'main-dashboard', 'dashboard')
         # Registers recursive_getattr filter
         self.app.jinja_env.filters['recursive_getattr'] = recursive_getattr
 
@@ -115,67 +120,31 @@ class Admin(object):
         :param parent: the parent node path
         :param node_class: the class for node objects
         """
-        title = short_title if not title else title
-        new_node = node_class(self, url_prefix, endpoint, short_title,
-            title=None, parent=parent)
-        self._add_node(new_node, endpoint, parent=parent)
-        return new_node
+        return self._add_node(node_class, url_prefix, endpoint, short_title,
+            title=title, parent=parent)
 
     def register_module(self, module_class, url_prefix, endpoint, short_title,
             title=None, parent=None):
         """Registers new module to current admin.
         """
-        title = short_title if not title else title
-        new_module = module_class(self, url_prefix, endpoint, short_title,
-            title, parent=parent)
-        self._add_node(new_module, endpoint, parent=parent)
-        return new_module
+        return self._add_node(module_class, url_prefix, endpoint, short_title,
+            title=title, parent=parent)
 
-    def _add_node(self, node_object, endpoint, parent=None):
-        if parent and not parent in self.registered_nodes:
-            raise Exception('Parent admin node not registered')
-        path = "%s.%s" % (parent, endpoint) if parent else endpoint
-        self.registered_nodes[path] = node_object
+    def _add_node(self, node_class, url_prefix, endpoint, short_title,
+        title=None, parent=None):
+        """Registers new node object to current admin object.
 
-    def register_main_dashboard(self, main_dashboard):
-        self.main_dashboard = main_dashboard
-        self.main_dashboard.admin = self
-
-    @property
-    def navigation(self):
-        """Returns main navigation elements as nested dict.
         """
-        depth = {}
-        depth[0] = {
-            'class': 'main-dashboard',
-            'short_title': 'dashboard',
-            'title': 'Go to main dashboard',
-            'url': url_for('%s.dashboard' % self.blueprint.name),
-            'children': [],
-            'url_path': None
-        }
-        navigation = [depth[0]]
-        for path in self.registered_nodes:
-            module = self.registered_nodes[path]
-            level = path.count('.')
-            if hasattr(module, 'rules') and len(module.rules) > 0:
-                url = url_for(module.rules[0])
-            else:
-                url = None
-            depth[level] = {
-                'class': path,
-                'short_title': module.short_title,
-                'title': 'Go to %s' % module.short_title,
-                'url': url,
-                'url_path': module.url_path,
-                'children': [],
-            }
-            if level == 0:
-                navigation.append(depth[level])
-            else:
-                parent = depth[level - 1]
-                parent['children'].append(depth[level])
-        return navigation
+        title = short_title if not title else title
+        if parent and not issubclass(parent.__class__, AdminNode):
+            raise Exception('`parent` class must be AdminNode subclass')
+        new_node = node_class(self, url_prefix, endpoint, short_title,
+            title=title, parent=parent)
+        if parent:
+            parent.children.append(new_node)
+        else:
+            self.root_nodes.append(new_node)
+        return new_node
 
     def secure_endpoint(self, endpoint, http_code=403):
         """Gives a way to secure specific path.
@@ -211,19 +180,9 @@ class Admin(object):
                     if not function():
                         return abort(http_code)
 
-    def get_parents_for_path(self, path):
-        """Returns all parents node object for endpoint.
-
-        :param path: the path
-        """
-        full_path = []
-        if not path in self.registered_nodes:
-            raise Exception('Non registered endpoint')
-        for registered_path in self.registered_nodes:
-            if path.startswith(registered_path)\
-                    and not path == registered_path:
-                full_path.append(self.registered_nodes[registered_path])
-        return full_path
+    @property
+    def main_dashboard(self):
+        return self.root_nodes[0]
 
 
 class AdminModule(AdminNode):
@@ -235,18 +194,12 @@ class AdminModule(AdminNode):
         & breadcrumbs
     :param title: the long title
     """
-    def __init__(self, admin, url_prefix, endpoint, short_title, title,
-            parent=None):
-        self.admin = admin
-        self.endpoint = endpoint
-        self.short_title = short_title
-        self.title = title
-        self.url_prefix = url_prefix
+    def __init__(self, *args, **kwargs):
+        super(AdminModule, self).__init__(*args, **kwargs)
         self.rules = []
-        self._parent = parent
         self.register_rules()
 
-    def add_url_rule(self, rule, endpoint, view_func=None, **options):
+    def add_url_rule(self, rule, endpoint, view_func, **options):
         """Adds a routing rule to the application from relative endpoint.
 
         :param rule: the rule
@@ -264,6 +217,15 @@ class AdminModule(AdminNode):
         """
         raise NotImplementedError('Admin module class must provide'
             + ' register_rules()')
+
+    @property
+    def url(self):
+        """Returns first registered (main) rule as url.
+        """
+        try:
+            return url_for(self.rules[0])
+        except IndexError:
+            raise Exception('`AdminModule` must provide at list one rule.')
 
     def secure_endpoint(self, endpoint, http_code=403):
         """Gives a way to secure endpoints.
@@ -310,15 +272,15 @@ class ObjectAdminModule(AdminModule):
         """Adds object list rule to current app.
         """
         self.add_url_rule('/', 'list',
-            view_func=self.list_view.as_view('short_title', self))
+            self.list_view.as_view('short_title', self))
         self.add_url_rule('/page/<page>', 'list',
-            view_func=self.list_view.as_view('short_title', self))
+            self.list_view.as_view('short_title', self))
         self.add_url_rule('/new', 'new',
-            view_func=self.form_view.as_view('short_title', self))
+            self.form_view.as_view('short_title', self))
         self.add_url_rule('/<pk>/edit', 'edit',
-            view_func=self.form_view.as_view('short_title', self))
+            self.form_view.as_view('short_title', self))
         self.add_url_rule('/<pk>/delete', 'delete',
-            view_func=self.delete_view.as_view('short_title', self))
+            self.delete_view.as_view('short_title', self))
 
     def get_object_list(self, search=None, order_by_field=None,
             order_by_direction=None, offset=None, limit=None):

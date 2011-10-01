@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
+from admin import AdminModule
+from views import DashboardView
 
 
-class Dashboard():
+class Dashboard(AdminModule):
     """A dashboard is a Widget holder usually used as admin entry point.
     """
-    def __init__(self, widgets=[]):
-        self.widgets = widgets
+    widgets = []
+
+    def register_rules(self):
+        self.add_url_rule('/', 'show', DashboardView.as_view(
+            'dashboard', self))
 
 
 class DashboardWidget():
@@ -29,6 +34,6 @@ class HelloWorldWidget(DashboardWidget):
         return '<p>Hello world!</p>'
 
 
-# Lets make a default dashboard
-default_dashboard = Dashboard(widgets=[HelloWorldWidget(
-    'my first dashboard widget')])
+class DefaultDashboard(Dashboard):
+    """Default dashboard."""
+    widgets = [HelloWorldWidget('my first dashboard widget')]
