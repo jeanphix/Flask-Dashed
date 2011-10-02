@@ -164,6 +164,20 @@ class AutoModelAdminModuleTest(BaseTest):
         r = self.client.get(url_for('admin.author_new'))
         self.assertEqual(r.status_code, 403)
 
+    def test_secure_module_endpoint(self):
+
+        author_module = admin.register_module(self.AutoAuthorModule,
+            '/author-again', 'author_again', 'auto generated author module')
+
+        @author_module.secure_endpoint('list', 403)
+        def secure(self):
+            return False
+
+        r = self.client.get(url_for('admin.author_again_list'))
+        self.assertEqual(r.status_code, 403)
+        r = self.client.get(url_for('admin.author_again_new'))
+        self.assertEqual(r.status_code, 403)
+
 
 class BookForm(wtforms.Form):
     title = wtforms.TextField('Title', [wtforms.validators.required()])

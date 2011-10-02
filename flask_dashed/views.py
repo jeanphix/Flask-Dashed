@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-
 from math import ceil
 from flask import render_template, request, flash, redirect, url_for
+from flask import abort
 from flask.views import MethodView
 
 
@@ -10,6 +10,19 @@ def get_next_or(url):
     """Returns next request args or url.
     """
     return request.args['next'] if 'next' in request.args else url
+
+
+def secure(endpoint, function, http_code):
+    """Secures view function.
+    """
+    def decorator(view_func):
+        def _wrapped_view(self, *args, **kwargs):
+            if not function(self, *args, **kwargs):
+                return abort(http_code)
+            return view_func(self, *args, **kwargs)
+        view_func = _wrapped_view
+        return view_func
+    return decorator
 
 
 class AdminModuleMixin(object):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from werkzeug import MultiDict
+from werkzeug import OrderedMultiDict
 
 from flask import Blueprint, url_for, request, abort
 from views import ObjectListView, ObjectFormView
-from views import ObjectDeleteView
+from views import ObjectDeleteView, secure
 
 
 def recursive_getattr(obj, attr):
@@ -101,7 +101,7 @@ class Admin(object):
         self.app = app
         self.url_prefix = url_prefix
         self.endpoint = endpoint
-        self.secure_functions = MultiDict()
+        self.secure_functions = OrderedMultiDict()
         # Checks security for current path
         self.blueprint.before_request(
             lambda: self.check_path_security(request.path))
@@ -186,8 +186,8 @@ class AdminModule(AdminNode):
     """
     def __init__(self, *args, **kwargs):
         super(AdminModule, self).__init__(*args, **kwargs)
-        self.rules = []
-        self.register_rules()
+        self.rules = OrderedMultiDict()
+        self._register_rules()
 
     def add_url_rule(self, rule, endpoint, view_func, **options):
         """Adds a routing rule to the application from relative endpoint.
@@ -200,22 +200,49 @@ class AdminModule(AdminNode):
             self.endpoint, endpoint)
         self.admin.app.add_url_rule("%s%s%s" % (self.admin.url_prefix,
             self.url_path, rule), full_endpoint, view_func, **options)
-        self.rules.append(full_endpoint)
+        self.rules.add(endpoint, view_func)
 
-    def register_rules(self):
+    def _register_rules(self):
         """Registers all module rules after initialization.
         """
-        raise NotImplementedError('Admin module class must provide'
-            + ' register_rules()')
+        if not hasattr(self, 'default_rules'):
+            raise NotImplementedError('Admin module class must provide'
+                + ' default_rules')
+            # ('/', 'list', self.list_view.as_view('short_title', self)),
+        for rule, endpoint, view_func in self.default_rules:
+            self.add_url_rule(rule, endpoint, view_func)
 
     @property
     def url(self):
         """Returns first registered (main) rule as url.
         """
         try:
-            return url_for(self.rules[0])
+            return url_for("%s.%s_%s" % (self.admin.endpoint,
+                self.endpoint, self.rules.lists()[0][0]))
+                # Cause OrderedMultiDict.keys() doesn't preserve order...
         except IndexError:
             raise Exception('`AdminModule` must provide at list one rule.')
+
+    def secure_endpoint(self, endpoint,  http_code=403):
+        """Gives a way to secure specific url path.
+
+        :param path: the endpoint to protect
+        :param http_code: the response http code when False
+        """
+        def decorator(f):
+            self._secure_enpoint(endpoint, f, http_code)
+            return f
+        return decorator
+
+    def _secure_enpoint(self, endpoint, secure_function, http_code):
+        """Secure enpoint view function via `secure` decorator.
+
+        :param enpoint: the endpoint to secure
+        :param secure_function: the function to check
+        :param http_code: the http code for response.
+        """
+        view_func = self.rules.get(endpoint)
+        view_func = secure(endpoint, secure_function, http_code)(view_func)
 
 
 class ObjectAdminModule(AdminModule):
@@ -246,19 +273,20 @@ class ObjectAdminModule(AdminModule):
             raise NotImplementedError()
         return super(ObjectAdminModule, cls).__new__(cls, *args, **kwargs)
 
-    def register_rules(self):
+    @property
+    def default_rules(self):
         """Adds object list rule to current app.
         """
-        self.add_url_rule('/', 'list',
-            self.list_view.as_view('short_title', self))
-        self.add_url_rule('/page/<page>', 'list',
-            self.list_view.as_view('short_title', self))
-        self.add_url_rule('/new', 'new',
-            self.form_view.as_view('short_title', self))
-        self.add_url_rule('/<pk>/edit', 'edit',
-            self.form_view.as_view('short_title', self))
-        self.add_url_rule('/<pk>/delete', 'delete',
-            self.delete_view.as_view('short_title', self))
+        return [
+            ('/', 'list', self.list_view.as_view('short_title', self)),
+            ('/page/<page>', 'list', self.list_view.as_view('short_title',
+                self)),
+            ('/new', 'new', self.form_view.as_view('short_title', self)),
+            ('/<pk>/edit', 'edit', self.form_view.as_view('short_title',
+                self)),
+            ('/<pk>/delete', 'delete', self.delete_view.as_view('short_title',
+                self)),
+        ]
 
     def get_object_list(self, search=None, order_by_field=None,
             order_by_direction=None, offset=None, limit=None):

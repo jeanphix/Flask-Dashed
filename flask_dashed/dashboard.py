@@ -8,9 +8,10 @@ class Dashboard(AdminModule):
     """
     widgets = []
 
-    def register_rules(self):
-        self.add_url_rule('/', 'show', DashboardView.as_view(
-            'dashboard', self))
+    @property
+    def default_rules(self):
+        return [('/', 'show', DashboardView.as_view(
+            'dashboard', self))]
 
 
 class DashboardWidget():
