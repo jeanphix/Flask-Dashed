@@ -108,6 +108,9 @@ class AutoModelAdminModuleTest(BaseTest):
     class AutoBookModule(ModelAdminModule):
         model = Book
 
+    class AutoAuthorModule(ModelAdminModule):
+        model = Author
+
     def create_app(self):
         self.book_module = admin.register_module(self.AutoBookModule,
             '/book', 'book', 'auto generated book module')
@@ -144,6 +147,21 @@ class AutoModelAdminModuleTest(BaseTest):
         r = self.client.get(url_for('admin.book_list'))
         self.assertEqual(r.status_code, 403)
         r = self.client.get(url_for('admin.book_new'))
+        self.assertEqual(r.status_code, 403)
+
+    def test_secure_parent_node(self):
+
+        @self.book_module.secure(403)
+        def secure():
+            return True
+
+        admin.register_module(self.AutoAuthorModule, '/author', 'author',
+            'auto generated author module', parent=self.book_module)
+        self.assertIn(self.book_module.url_path,
+            admin.secure_functions.keys())
+        r = self.client.get(url_for('admin.author_list'))
+        self.assertEqual(r.status_code, 403)
+        r = self.client.get(url_for('admin.author_new'))
         self.assertEqual(r.status_code, 403)
 
 

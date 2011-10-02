@@ -12,17 +12,23 @@ def get_next_or(url):
     return request.args['next'] if 'next' in request.args else url
 
 
-class DashboardView(MethodView):
+class AdminModuleMixin(object):
+    """Provides admin node.
+
+    :param admin_module: the admin module
+    """
+    def __init__(self, admin_module):
+        self.admin_module = admin_module
+
+
+class DashboardView(MethodView, AdminModuleMixin):
     """Displays user dashboard.
 
-    :param dashboard: the dashboard to display
+    :param admin_module: the admin module
     """
-    def __init__(self, dashboard):
-        self.dashboard = dashboard
-
     def get(self):
-        return  render_template('dashboard.html', admin=self.dashboard.admin,
-            dashboard=self.dashboard)
+        return  render_template('dashboard.html',
+            admin=self.admin_module.admin, dashboard=self.admin_module)
 
 
 def compute_args(request, update={}):
@@ -37,14 +43,11 @@ def compute_args(request, update={}):
     return args
 
 
-class ObjectListView(MethodView):
+class ObjectListView(MethodView, AdminModuleMixin):
     """Lists objects.
 
     :param admin_module: the admin module
     """
-    def __init__(self, admin_module):
-        self.admin_module = admin_module
-
     def get(self, page=1):
         """Displays object list.
 
@@ -88,14 +91,11 @@ class ObjectListView(MethodView):
                 last = num
 
 
-class ObjectFormView(MethodView):
+class ObjectFormView(MethodView, AdminModuleMixin):
     """Creates or updates object.
 
     :param admin_module: the admin module
     """
-    def __init__(self, admin_module):
-        self.admin_module = admin_module
-
     def get(self, pk=None):
         """Displays form.
 
@@ -153,14 +153,11 @@ class ObjectFormView(MethodView):
         return obj, is_new
 
 
-class ObjectDeleteView(MethodView):
+class ObjectDeleteView(MethodView, AdminModuleMixin):
     """Deletes object.
 
     :param admin_module: the admin module
     """
-    def __init__(self, admin_module):
-        self.admin_module = admin_module
-
     def get(self, pk):
         """Deletes object at given pk.
 

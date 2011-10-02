@@ -102,11 +102,9 @@ class Admin(object):
         self.url_prefix = url_prefix
         self.endpoint = endpoint
         self.secure_functions = MultiDict()
-
-        @self.blueprint.before_request
-        def before_request():
-            """Checks security for current path."""
-            self.check_path_security(request.path)
+        # Checks security for current path
+        self.blueprint.before_request(
+            lambda: self.check_path_security(request.path))
 
         self.app.register_blueprint(self.blueprint, url_prefix=url_prefix)
         self.root_nodes = []
@@ -166,9 +164,9 @@ class Admin(object):
         self.secure_functions.add(path, (function, http_code))
 
     def check_path_security(self, path):
-        """Checks security for specific and point.
+        """Checks security for specific and path.
 
-        :param endpoint: the endpoint to check
+        :param path: the path to check
         """
         for key in self.secure_functions.iterkeys():
             if path.startswith("%s%s" % (self.url_prefix, key)):
