@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from werkzeug import MultiDict
 
 from flask import Blueprint, url_for, request, abort
 from views import ObjectListView, ObjectFormView
@@ -68,6 +69,17 @@ class AdminNode(object):
         else:
             return []
 
+    def secure(self, http_code=403):
+        """Gives a way to secure specific url path.
+
+        :param path: the endpoint to protect
+        :param http_code: the response http code when False
+        """
+        def decorator(f):
+            self.admin.add_path_security(self.url_path, f, http_code)
+            return f
+        return decorator
+
 
 class Admin(object):
     """Class that provides a way to add admin interface to Flask applications.
@@ -89,14 +101,12 @@ class Admin(object):
         self.app = app
         self.url_prefix = url_prefix
         self.endpoint = endpoint
-        self.secure_functions = {}
+        self.secure_functions = MultiDict()
 
         @self.blueprint.before_request
         def before_request():
-            """Checks security for current endpoint."""
-            endpoint = request.url_rule.endpoint\
-                .lstrip("%s" % self.endpoint)
-            self.check_endpoint_security(endpoint)
+            """Checks security for current path."""
+            self.check_path_security(request.path)
 
         self.app.register_blueprint(self.blueprint, url_prefix=url_prefix)
         self.root_nodes = []
@@ -142,43 +152,29 @@ class Admin(object):
             self.root_nodes.append(new_node)
         return new_node
 
-    def secure_endpoint(self, endpoint, http_code=403):
-        """Gives a way to secure specific path.
+    @property
+    def main_dashboard(self):
+        return self.root_nodes[0]
 
-        :param endpoint: the endpoint to protect
-        :param http_code: the response http code
-        """
-        def decorator(f):
-            self.add_endpoint_security(endpoint, f, http_code)
-            return f
-        return decorator
-
-    def add_endpoint_security(self, endpoint, function, http_code=403):
+    def add_path_security(self, path, function, http_code=403):
         """Registers security function for given path.
 
-        :param endpoint: the endpoint to secure
+        :param path: the endpoint to secure
         :function: the security function
         :param http_code: the response http code
         """
-        if endpoint in self.secure_functions:
-            self.secure_functions[endpoint].append((function, http_code,))
-        else:
-            self.secure_functions[endpoint] = [(function, http_code,)]
+        self.secure_functions.add(path, (function, http_code))
 
-    def check_endpoint_security(self, endpoint):
+    def check_path_security(self, path):
         """Checks security for specific and point.
 
         :param endpoint: the endpoint to check
         """
-        for path in self.secure_functions:
-            if endpoint.startswith(path):
-                for function, http_code in self.secure_functions[path]:
+        for key in self.secure_functions.iterkeys():
+            if path.startswith("%s%s" % (self.url_prefix, key)):
+                for function, http_code in self.secure_functions.getlist(key):
                     if not function():
                         return abort(http_code)
-
-    @property
-    def main_dashboard(self):
-        return self.root_nodes[0]
 
 
 class AdminModule(AdminNode):
@@ -222,18 +218,6 @@ class AdminModule(AdminNode):
             return url_for(self.rules[0])
         except IndexError:
             raise Exception('`AdminModule` must provide at list one rule.')
-
-    def secure_endpoint(self, endpoint, http_code=403):
-        """Gives a way to secure endpoints.
-
-        :param endpoint: the endpoint to protect
-        :param http_code: the response http code
-        """
-        def decorator(f):
-            self.admin.add_endpoint_security(".%s_%s" % (self.endpoint,
-                endpoint.lstrip('.')), f, http_code)
-            return f
-        return decorator
 
 
 class ObjectAdminModule(AdminModule):

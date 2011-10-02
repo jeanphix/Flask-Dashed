@@ -133,35 +133,14 @@ class AutoModelAdminModuleTest(BaseTest):
             pk=Book.query.first().id))
         self.assertEqual(r.status_code, 200)
 
-    def test_secure_all_admin(self):
+    def test_secure_node(self):
 
-        @admin.secure_endpoint('.')
+        @self.book_module.secure(403)
         def secure():
             return False
 
-        self.assertIn(".", admin.secure_functions)
-        r = self.client.get(url_for('admin.book_list'))
-        self.assertEqual(r.status_code, 403)
-
-    def test_secure_endpoint(self):
-
-        @self.book_module.secure_endpoint('list')
-        def secure():
-            return False
-
-        self.assertIn(".%s_%s" % (self.book_module.endpoint, 'list'),
-            admin.secure_functions)
-        r = self.client.get(url_for('admin.book_list'))
-        self.assertEqual(r.status_code, 403)
-
-    def test_secure_endpoint_from_root(self):
-
-        @self.book_module.secure_endpoint('.')
-        def secure():
-            return False
-
-        self.assertIn(".%s_" % self.book_module.endpoint,
-            admin.secure_functions)
+        self.assertIn(self.book_module.url_path,
+            admin.secure_functions.keys())
         r = self.client.get(url_for('admin.book_list'))
         self.assertEqual(r.status_code, 403)
         r = self.client.get(url_for('admin.book_new'))
