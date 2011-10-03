@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from functools import wraps
 from math import ceil
 from flask import render_template, request, flash, redirect, url_for
 from flask import abort
@@ -16,12 +17,12 @@ def secure(endpoint, function, http_code):
     """Secures view function.
     """
     def decorator(view_func):
+        @wraps(view_func)
         def _wrapped_view(self, *args, **kwargs):
             if not function(self, *args, **kwargs):
                 return abort(http_code)
-            return view_func(self, *args, **kwargs)
-        view_func = _wrapped_view
-        return view_func
+            return view_func(*args, **kwargs)
+        return _wrapped_view
     return decorator
 
 

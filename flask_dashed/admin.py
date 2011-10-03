@@ -200,7 +200,7 @@ class AdminModule(AdminNode):
             self.endpoint, endpoint)
         self.admin.app.add_url_rule("%s%s%s" % (self.admin.url_prefix,
             self.url_path, rule), full_endpoint, view_func, **options)
-        self.rules.add(endpoint, view_func)
+        self.rules.setlist(endpoint, [(rule, endpoint, view_func)])
 
     def _register_rules(self):
         """Registers all module rules after initialization.
@@ -241,8 +241,10 @@ class AdminModule(AdminNode):
         :param secure_function: the function to check
         :param http_code: the http code for response.
         """
-        view_func = self.rules.get(endpoint)
-        view_func = secure(endpoint, secure_function, http_code)(view_func)
+        rule, endpoint, view_func = self.rules.get(endpoint)
+        view_func.view_class.dispatch_request =\
+            secure(endpoint, secure_function, http_code)(
+                view_func.view_class.dispatch_request)
 
 
 class ObjectAdminModule(AdminModule):

@@ -170,13 +170,13 @@ class AutoModelAdminModuleTest(BaseTest):
             '/author-again', 'author_again', 'auto generated author module')
 
         @author_module.secure_endpoint('list', 403)
-        def secure(self):
+        def secure(view):
             return False
 
         r = self.client.get(url_for('admin.author_again_list'))
         self.assertEqual(r.status_code, 403)
         r = self.client.get(url_for('admin.author_again_new'))
-        self.assertEqual(r.status_code, 403)
+        self.assertEqual(r.status_code, 200)
 
 
 class BookForm(wtforms.Form):
