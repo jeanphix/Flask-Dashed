@@ -83,28 +83,22 @@
 </div>
 <div class="section" id="dealing-with-security">
 <h2>Dealing with security<a class="headerlink" href="#dealing-with-security" title="Permalink to this headline">¶</a></h2>
-<p>Securing all admin endpoints:</p>
+<p>Securing all module endpoints:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">session</span>
 
-<span class="nd">@admin.secure_endpoint</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">http_code</span><span class="o">=</span><span class="mi">401</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">login_required</span><span class="p">():</span>
-    <span class="k">return</span> <span class="s">&quot;user&quot;</span> <span class="ow">in</span> <span class="n">session</span>
-</pre></div>
-</div>
-<p>Securing all module endpoints:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">book_module</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">register_module</span><span class="p">(</span><span class="n">BookModule</span><span class="p">,</span> <span class="s">&#39;/books&#39;</span><span class="p">,</span> <span class="s">&#39;books&#39;</span><span class="p">,</span>
+<span class="n">book_module</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">register_module</span><span class="p">(</span><span class="n">BookModule</span><span class="p">,</span> <span class="s">&#39;/books&#39;</span><span class="p">,</span> <span class="s">&#39;books&#39;</span><span class="p">,</span>
     <span class="s">&#39;book management&#39;</span><span class="p">)</span>
 
-<span class="nd">@book_module.secure_endpoint</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">http_code</span><span class="o">=</span><span class="mi">401</span><span class="p">)</span>
+<span class="nd">@book_module.secure</span><span class="p">(</span><span class="n">http_code</span><span class="o">=</span><span class="mi">401</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">login_required</span><span class="p">():</span>
     <span class="k">return</span> <span class="s">&quot;user&quot;</span> <span class="ow">in</span> <span class="n">session</span>
 </pre></div>
 </div>
 <p>Securing specific module endpoint:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@book_module.secure_endpoint</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="n">http_code</span><span class="o">=</span><span class="mi">403</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">check_list_credential</span><span class="p">():</span>
-    <span class="c"># I&#39;m now signed in, may I access the ressource?</span>
-    <span class="k">return</span> <span class="n">session</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">can_list</span><span class="p">()</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@book_module.secure_endpoint</span><span class="p">(</span><span class="s">&#39;edit&#39;</span><span class="p">,</span> <span class="n">http_code</span><span class="o">=</span><span class="mi">403</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">check_edit_credential</span><span class="p">(</span><span class="n">view</span><span class="p">):</span>
+    <span class="c"># I&#39;m now signed in, may I modify the ressource?</span>
+    <span class="k">return</span> <span class="n">session</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">can_edit</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">get_object</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>

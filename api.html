@@ -56,7 +56,7 @@
 <h2>Admin Object<a class="headerlink" href="#admin-object" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="admin.Admin">
-<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">Admin</tt><big>(</big><em>app</em>, <em>url_prefix='/admin'</em>, <em>main_dashboard=&lt;dashboard.Dashboard instance at 0x31259e0&gt;</em>, <em>endpoint='admin'</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">Admin</tt><big>(</big><em>app</em>, <em>url_prefix='/admin'</em>, <em>main_dashboard=None</em>, <em>endpoint='admin'</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that provides a way to add admin interface to Flask applications.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -73,15 +73,15 @@
 </tbody>
 </table>
 <dl class="method">
-<dt id="admin.Admin.add_endpoint_security">
-<tt class="descname">add_endpoint_security</tt><big>(</big><em>endpoint</em>, <em>function</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.add_endpoint_security"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.add_endpoint_security" title="Permalink to this definition">¶</a></dt>
+<dt id="admin.Admin.add_path_security">
+<tt class="descname">add_path_security</tt><big>(</big><em>path</em>, <em>function</em>, <em>http_code=403</em><big>)</big><a class="headerlink" href="#admin.Admin.add_path_security" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers security function for given path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>endpoint</strong> &#8211; the endpoint to secure</li>
+<li><strong>path</strong> &#8211; the endpoint to secure</li>
 <li><strong>http_code</strong> &#8211; the response http code</li>
 </ul>
 </td>
@@ -94,42 +94,40 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="admin.Admin.check_endpoint_security">
-<tt class="descname">check_endpoint_security</tt><big>(</big><em>endpoint</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.check_endpoint_security"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.check_endpoint_security" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks security for specific and point.</p>
+<dt id="admin.Admin.check_path_security">
+<tt class="descname">check_path_security</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#admin.Admin.check_path_security" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks security for specific and path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>endpoint</strong> &#8211; the endpoint to check</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; the path to check</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="admin.Admin.navigation">
-<tt class="descname">navigation</tt><a class="reference internal" href="_modules/admin.html#Admin.navigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.navigation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns main navigation elements as nested dict.</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="admin.Admin.register_module">
-<tt class="descname">register_module</tt><big>(</big><em>module_class</em>, <em>rule</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.register_module"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.register_module" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">register_module</tt><big>(</big><em>module_class</em>, <em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.register_module"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.register_module" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers new module to current admin.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="admin.Admin.secure_endpoint">
-<tt class="descname">secure_endpoint</tt><big>(</big><em>endpoint</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.secure_endpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.secure_endpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gives a way to secure specific path.</p>
+<dt id="admin.Admin.register_node">
+<tt class="descname">register_node</tt><big>(</big><em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em>, <em>node_class=&lt;class 'admin.AdminNode'&gt;</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.register_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.register_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers admin node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>endpoint</strong> &#8211; the endpoint to protect</li>
-<li><strong>http_code</strong> &#8211; the response http code</li>
+<li><strong>url_prefix</strong> &#8211; the url prefix</li>
+<li><strong>endpoint</strong> &#8211; the endpoint</li>
+<li><strong>short_title</strong> &#8211; the short title</li>
+<li><strong>title</strong> &#8211; the long title</li>
+<li><strong>parent</strong> &#8211; the parent node path</li>
+<li><strong>node_class</strong> &#8211; the class for node objects</li>
 </ul>
 </td>
 </tr>
@@ -158,7 +156,7 @@ recursive_getattr(a, 'b.d') =&gt; None</pre>
 
 <dl class="class">
 <dt id="admin.AdminNode">
-<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminNode</tt><big>(</big><em>admin</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminNode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminNode</tt><big>(</big><em>admin</em>, <em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>An AdminNode just act as navigation container, it doesn&#8217;t provide any
 rules.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -167,20 +165,48 @@ rules.</p>
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>admin</strong> &#8211; the parent admin object</li>
+<li><strong>url_prefix</strong> &#8211; the url prefix</li>
+<li><strong>enpoint</strong> &#8211; the endpoint</li>
 <li><strong>short_title</strong> &#8211; the short module title use on navigation
 &amp; breadcrumbs</li>
 <li><strong>title</strong> &#8211; the long title</li>
-<li><strong>parent</strong> &#8211; the parent navigation path</li>
+<li><strong>parent</strong> &#8211; the parent node</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<dl class="attribute">
+<dt id="admin.AdminNode.parents">
+<tt class="descname">parents</tt><a class="headerlink" href="#admin.AdminNode.parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all parent hierarchy as list. Usefull for breadcrumbs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="admin.AdminNode.secure">
+<tt class="descname">secure</tt><big>(</big><em>http_code=403</em><big>)</big><a class="headerlink" href="#admin.AdminNode.secure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a way to secure specific url path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>http_code</strong> &#8211; the response http code when False</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="admin.AdminNode.url_path">
+<tt class="descname">url_path</tt><a class="headerlink" href="#admin.AdminNode.url_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the url path relative to admin one.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="admin.AdminModule">
-<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminModule</tt><big>(</big><em>admin</em>, <em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">admin.</tt><tt class="descname">AdminModule</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that provides a way to create simple admin module.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -189,9 +215,11 @@ rules.</p>
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>admin</strong> &#8211; the parent admin object</li>
 <li><strong>url_prefix</strong> &#8211; the url prefix</li>
-<li><strong>short_title</strong> &#8211; the short module title use un navigation
+<li><strong>enpoint</strong> &#8211; the endpoint</li>
+<li><strong>short_title</strong> &#8211; the short module title use on navigation
 &amp; breadcrumbs</li>
 <li><strong>title</strong> &#8211; the long title</li>
+<li><strong>parent</strong> &#8211; the parent node</li>
 </ul>
 </td>
 </tr>
@@ -199,8 +227,9 @@ rules.</p>
 </table>
 <dl class="method">
 <dt id="admin.AdminModule.add_url_rule">
-<tt class="descname">add_url_rule</tt><big>(</big><em>rule</em>, <em>endpoint</em>, <em>view_func=None</em>, <em>**options</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.add_url_rule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.add_url_rule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a routing rule to the application from relative endpoint.</p>
+<tt class="descname">add_url_rule</tt><big>(</big><em>rule</em>, <em>endpoint</em>, <em>view_func</em>, <em>**options</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.add_url_rule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.add_url_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a routing rule to the application from relative endpoint.
+<cite>view_class</cite> is copied as we need to dynamically apply decorators.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -217,27 +246,27 @@ rules.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="admin.AdminModule.register_rules">
-<tt class="descname">register_rules</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.register_rules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.register_rules" title="Permalink to this definition">¶</a></dt>
-<dd><p>Registers all module rules after initialization.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="admin.AdminModule.secure_endpoint">
 <tt class="descname">secure_endpoint</tt><big>(</big><em>endpoint</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminModule.secure_endpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.secure_endpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gives a way to secure endpoints.</p>
+<dd><p>Gives a way to secure specific url path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>endpoint</strong> &#8211; the endpoint to protect</li>
-<li><strong>http_code</strong> &#8211; the response http code</li>
+<li><strong>http_code</strong> &#8211; the response http code when False</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="admin.AdminModule.url">
+<tt class="descname">url</tt><a class="headerlink" href="#admin.AdminModule.url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns first registered (main) rule as url.</p>
 </dd></dl>
 
 </dd></dl>
@@ -247,7 +276,7 @@ rules.</p>
 <h2>SQLAlchemy extension<a class="headerlink" href="#sqlalchemy-extension" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="ext.sqlalchemy.ModelAdminModule">
-<em class="property">class </em><tt class="descclassname">ext.sqlalchemy.</tt><tt class="descname">ModelAdminModule</tt><big>(</big><em>admin</em>, <em>url_prefix</em>, <em>endpoint</em>, <em>short_title</em>, <em>title</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">ext.sqlalchemy.</tt><tt class="descname">ModelAdminModule</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/ext/sqlalchemy.html#ModelAdminModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ext.sqlalchemy.ModelAdminModule" title="Permalink to this definition">¶</a></dt>
 <dd><p>SQLAlchemy model admin module builder.</p>
 <dl class="method">
 <dt id="ext.sqlalchemy.ModelAdminModule.count_list">
