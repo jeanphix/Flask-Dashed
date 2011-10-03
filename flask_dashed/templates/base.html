@@ -24,7 +24,9 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-                {% include 'breadcrumbs.html' %}
+                {% if module %}
+                    {% include 'breadcrumbs.html' %}
+                {% endif %}
                 {% block content %}<p>Welcome to flask admin</p>{% endblock %}
             </div>
         </section>
