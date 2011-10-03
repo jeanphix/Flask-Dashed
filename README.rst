@@ -51,10 +51,10 @@ Securing specific module endpoint::
         return session.user.can_edit_book(view.object)
 
 
-Organise modules
+Organize modules
 ----------------
 
-As admin nodes are registered into a "tree" it's quite easy to organize them.
+As admin nodes are registered into a "tree" it's quite easy to organize them.::
 
     library = admin.register_node('/library', 'library', my library)
     book_module = admin.register_module(BookModule, '/books', 'books',
