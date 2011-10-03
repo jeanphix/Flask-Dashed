@@ -29,8 +29,8 @@ Code::
         app.run()
 
 
-Dealing with security
----------------------
+Deal with security
+------------------
 
 Securing all module endpoints::
 
@@ -49,6 +49,18 @@ Securing specific module endpoint::
     def check_edit_credential(view):
         # I'm now signed in, may I modify the ressource?
         return session.user.can_edit_book(view.object)
+
+
+Organise modules
+----------------
+
+As admin nodes are registered into a "tree" it's quite easy to organize them.
+
+    library = admin.register_node('/library', 'library', my library)
+    book_module = admin.register_module(BookModule, '/books', 'books',
+        'book management', parent=library)
+
+Navigation and breadcrumbs are automatically builds to feet your needs. Child module security will be inherited from parent one.
 
 
 SQLALchemy extension
