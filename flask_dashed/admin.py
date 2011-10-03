@@ -160,7 +160,7 @@ class Admin(object):
         """Registers security function for given path.
 
         :param path: the endpoint to secure
-        :function: the security function
+        :param function: the security function
         :param http_code: the response http code
         """
         self.secure_functions.add(path, (function, http_code))
