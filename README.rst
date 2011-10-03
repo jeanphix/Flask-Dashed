@@ -48,7 +48,7 @@ Securing specific module endpoint::
     @book_module.secure_endpoint('edit', http_code=403)
     def check_edit_credential(view):
         # I'm now signed in, may I modify the ressource?
-        return session.user.can_edit(view.get_object())
+        return session.user.can_edit_book(view.object)
 
 
 SQLALchemy extension
