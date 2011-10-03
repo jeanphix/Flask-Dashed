@@ -21,7 +21,7 @@ def secure(endpoint, function, http_code):
         def _wrapped_view(self, *args, **kwargs):
             if not function(self, *args, **kwargs):
                 return abort(http_code)
-            return view_func(*args, **kwargs)
+            return view_func(self, *args, **kwargs)
         return _wrapped_view
     return decorator
 
