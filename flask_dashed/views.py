@@ -115,7 +115,8 @@ class ObjectFormView(MethodView, AdminModuleMixin):
 
         :param pk: the object primary key
         """
-        obj, is_new = self._get_object(pk)
+        obj = self.object
+        is_new = pk is None
         form = self.admin_module.get_form(obj)
         return  render_template(
             self.admin_module.edit_template,
@@ -131,7 +132,8 @@ class ObjectFormView(MethodView, AdminModuleMixin):
 
         :param pk: the object primary key
         """
-        obj, is_new = self._get_object(pk)
+        obj = self.object
+        is_new = pk is None
         form = self.admin_module.get_form(obj)
         form.process(request.form)
         if form.validate():
@@ -153,18 +155,19 @@ class ObjectFormView(MethodView, AdminModuleMixin):
             form=form
         )
 
-    def _get_object(self, pk=None):
+    @property
+    def object(self):
         """Gets object required by the form.
 
         :param pk: the object primary key
         """
-        if pk:
-            obj = self.admin_module.get_object(pk)
-            is_new = False
-        else:
-            obj = self.admin_module.create_object()
-            is_new = True
-        return obj, is_new
+        if not hasattr(self, '_object'):
+            if 'pk' in request.view_args:
+                self._object = self.admin_module.get_object(
+                    request.view_args['pk'])
+            else:
+                self._object = self.admin_module.create_object()
+            return self._object
 
 
 class ObjectDeleteView(MethodView, AdminModuleMixin):

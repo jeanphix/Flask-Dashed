@@ -36,6 +36,7 @@ class AdminNode(object):
 
     :param admin: the parent admin object
     :param url_prefix: the url prefix
+    :param enpoint: the endpoint
     :param short_title: the short module title use on navigation
         & breadcrumbs
     :param title: the long title
@@ -62,7 +63,7 @@ class AdminNode(object):
 
     @property
     def parents(self):
-        """Returns all parent hierarchy as list.
+        """Returns all parent hierarchy as list. Usefull for breadcrumbs.
         """
         if self.parent:
             parents = list(self.parent.parents)
@@ -74,7 +75,6 @@ class AdminNode(object):
     def secure(self, http_code=403):
         """Gives a way to secure specific url path.
 
-        :param path: the endpoint to protect
         :param http_code: the response http code when False
         """
         def decorator(f):
@@ -182,9 +182,11 @@ class AdminModule(AdminNode):
 
     :param admin: the parent admin object
     :param url_prefix: the url prefix
-    :param short_title: the short module title use un navigation
+    :param enpoint: the endpoint
+    :param short_title: the short module title use on navigation
         & breadcrumbs
     :param title: the long title
+    :param parent: the parent node
     """
     def __init__(self, *args, **kwargs):
         super(AdminModule, self).__init__(*args, **kwargs)
@@ -193,7 +195,7 @@ class AdminModule(AdminNode):
 
     def add_url_rule(self, rule, endpoint, view_func, **options):
         """Adds a routing rule to the application from relative endpoint.
-        `view_class` is copy as we need to dynamically apply decorators.
+        `view_class` is copied as we need to dynamically apply decorators.
 
         :param rule: the rule
         :param endpoint: the endpoint
@@ -217,7 +219,6 @@ class AdminModule(AdminNode):
         if not hasattr(self, 'default_rules'):
             raise NotImplementedError('Admin module class must provide'
                 + ' default_rules')
-            # ('/', 'list', self.list_view.as_view('short_title', self)),
         for rule, endpoint, view_func in self.default_rules:
             self.add_url_rule(rule, endpoint, view_func)
 
@@ -235,7 +236,7 @@ class AdminModule(AdminNode):
     def secure_endpoint(self, endpoint,  http_code=403):
         """Gives a way to secure specific url path.
 
-        :param path: the endpoint to protect
+        :param endpoint: the endpoint to protect
         :param http_code: the response http code when False
         """
         def decorator(f):
@@ -248,7 +249,7 @@ class AdminModule(AdminNode):
 
         :param enpoint: the endpoint to secure
         :param secure_function: the function to check
-        :param http_code: the http code for response.
+        :param http_code: the response http code when False.
         """
         rule, endpoint, view_func = self.rules.get(endpoint)
         view_func.view_class.dispatch_request =\
