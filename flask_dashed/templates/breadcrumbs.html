@@ -1,0 +1,20 @@
+{% if module %}
+    <nav id="breadcrumbs" role="breadcrumbs">
+        <ul>
+            {% for parent in module.parents %}
+                <li>
+                    {% if parent.url %}
+                        <a href="{{ parent.url }}">
+                    {% endif %}
+                    {{ parent.short_title }}
+                    {% if parent.url %}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            <li>
+                <a href="{{ module.url }}">{{ module.short_title }}</a>
+            </li>
+        </ul>
+    </nav>
+{% endif %}

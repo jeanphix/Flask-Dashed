@@ -61,10 +61,24 @@ body > section > div{
 #main-navigation .active > a{
     font-weight: bold;
 }
+/* Breadcrumbs */
+#breadcrumbs{
+    margin: 0 0 1em 0;
+}
+#breadcrumbs > ul{
+    padding: 0;
+}
+#breadcrumbs > ul > li{
+    display: inline-block;
+}
+#breadcrumbs > ul > li:not(:last-child):after{
+    content: ">";
+    margin: 0 0 0 0.5em;
+}
 /* Search form */
 #search-form{
     position: absolute;
-    top: 0;
+    top: 2em;
     right: 5%;
 }
 #search-form input[type=text]{
