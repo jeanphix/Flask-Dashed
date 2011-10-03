@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import copy
+
 from werkzeug import OrderedMultiDict
 
 from flask import Blueprint, url_for, request, abort
@@ -191,11 +193,18 @@ class AdminModule(AdminNode):
 
     def add_url_rule(self, rule, endpoint, view_func, **options):
         """Adds a routing rule to the application from relative endpoint.
+        `view_class` is copy as we need to dynamically apply decorators.
 
         :param rule: the rule
         :param endpoint: the endpoint
         :param view_func: the view
         """
+        class ViewClass(view_func.view_class):
+            pass
+
+        ViewClass.__name__ = "%s_%s" % (self.endpoint, endpoint)
+        ViewClass.__module__ = view_func.__module__
+        view_func.view_class = ViewClass
         full_endpoint = "%s.%s_%s" % (self.admin.endpoint,
             self.endpoint, endpoint)
         self.admin.app.add_url_rule("%s%s%s" % (self.admin.url_prefix,

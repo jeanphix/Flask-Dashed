@@ -36,29 +36,23 @@ Code::
 Dealing with security
 ---------------------
 
-Securing all admin endpoints::
+Securing all module endpoints::
 
     from flask import session
-
-    @admin.secure_endpoint('.', http_code=401)
-    def login_required():
-        return "user" in session
-
-Securing all module endpoints::
 
     book_module = admin.register_module(BookModule, '/books', 'books',
         'book management')
 
-    @book_module.secure_endpoint('.', http_code=401)
+    @book_module.secure(http_code=401)
     def login_required():
         return "user" in session
 
 Securing specific module endpoint::
 
-    @book_module.secure_endpoint('list', http_code=403)
-    def check_list_credential():
-        # I'm now signed in, may I access the ressource?
-        return session.user.can_list()
+    @book_module.secure_endpoint('edit', http_code=403)
+    def check_edit_credential(view):
+        # I'm now signed in, may I modify the ressource?
+        return session.user.can_edit(view.get_object())
 
 
 SQLALchemy extension
