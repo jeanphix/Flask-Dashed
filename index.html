@@ -78,8 +78,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="dealing-with-security">
-<h2>Dealing with security<a class="headerlink" href="#dealing-with-security" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="deal-with-security">
+<h2>Deal with security<a class="headerlink" href="#deal-with-security" title="Permalink to this headline">¶</a></h2>
 <p>Securing all module endpoints:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">session</span>
 
@@ -98,6 +98,17 @@
     <span class="k">return</span> <span class="n">session</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">can_edit_book</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="organise-modules">
+<h2>Organise modules<a class="headerlink" href="#organise-modules" title="Permalink to this headline">¶</a></h2>
+<p>As admin nodes are registered into a &#8220;tree&#8221; it&#8217;s quite easy to organize them.</p>
+<blockquote>
+<div><p>library = admin.register_node(&#8216;/library&#8217;, &#8216;library&#8217;, my library)
+book_module = admin.register_module(BookModule, &#8216;/books&#8217;, &#8216;books&#8217;,</p>
+<blockquote>
+<div>&#8216;book management&#8217;, parent=library)</div></blockquote>
+</div></blockquote>
+<p>Navigation and breadcrumbs are automatically builds to feet your needs. Child module security will be inherited from parent one.</p>
 </div>
 <div class="section" id="sqlalchemy-extension">
 <h2>SQLALchemy extension<a class="headerlink" href="#sqlalchemy-extension" title="Permalink to this headline">¶</a></h2>
@@ -149,7 +160,8 @@
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#minimal-usage">Minimal usage</a></li>
-<li><a class="reference internal" href="#dealing-with-security">Dealing with security</a></li>
+<li><a class="reference internal" href="#deal-with-security">Deal with security</a></li>
+<li><a class="reference internal" href="#organise-modules">Organise modules</a></li>
 <li><a class="reference internal" href="#sqlalchemy-extension">SQLALchemy extension</a></li>
 <li><a class="reference internal" href="#api-reference">API Reference</a><ul>
 </ul>
