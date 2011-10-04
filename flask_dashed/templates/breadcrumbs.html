@@ -12,7 +12,7 @@
             </li>
         {% endfor %}
         <li>
-            <a href="{{ module.url }}">{{ module.short_title }}</a>
+            {% if not module.url == request.path %}<a href="{{ module.url }}">{% endif %}{{ module.short_title }}{% if not module.url == request.path %}</a>{% endif %}
         </li>
     </ul>
 </nav>
