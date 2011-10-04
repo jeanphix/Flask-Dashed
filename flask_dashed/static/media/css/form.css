@@ -8,19 +8,18 @@ label{
     display: block;
     float: left;
     width: 200px;
-}
-label,
-input[type=text],
-input[type=password]{
     padding: 0.3em 0;
 }
 input[type=text],
 input[type=password],
 select,
 textarea{
-    padding: 0.3em;
+    padding: 0.3em 5px;
     width: 300px;
     border: 1px #aaa solid;
+}
+select{
+    width: 312px;
 }
 textarea{
     height: 5em;
