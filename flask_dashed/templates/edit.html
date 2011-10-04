@@ -20,8 +20,8 @@
     </h1>
     <form method="post" action="?next={{ request.args.next }}">
         {{ render_form(form) }}
-        <p>
-            <input type="submit" value="save" />
+        <p class="actions">
+            <input type="submit" value="save" class="new" />
         </p>
     </form>
 {% endblock %}

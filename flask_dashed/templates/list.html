@@ -61,5 +61,5 @@
     {% else %}
         <p>no results</p>
     {% endif %}
-    <p><a href="{{ url_for('.%s_%s' % (module.endpoint, 'new')) }}?next={{ request.path }}">new</a></p>
+    <p class="actions"><a href="{{ url_for('.%s_%s' % (module.endpoint, 'new')) }}?next={{ request.path }}" class="new">new</a></p>
 {% endblock %}

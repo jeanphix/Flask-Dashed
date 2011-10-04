@@ -91,7 +91,7 @@ class Admin(object):
     :param main_dashboard: the main dashboard object
     :param endpoint: the endpoint
     """
-    def __init__(self, app, url_prefix="/admin",
+    def __init__(self, app, url_prefix="/admin", title="flask-dashed",
             main_dashboard=None, endpoint='admin'):
 
         if not main_dashboard:
@@ -103,6 +103,7 @@ class Admin(object):
         self.app = app
         self.url_prefix = url_prefix
         self.endpoint = endpoint
+        self.title = title
         self.secure_functions = OrderedMultiDict()
         # Checks security for current path
         self.blueprint.before_request(

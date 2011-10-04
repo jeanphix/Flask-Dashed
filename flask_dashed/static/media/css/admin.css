@@ -15,8 +15,9 @@ a, a:visited{
 }
 /* Header */
 header{
-    border-bottom: 1px solid #D2D2D2;
+    background: #222;
     line-height: 4em;
+    color: #eee;
 }
 header > h1{
     margin: 0;
@@ -55,15 +56,43 @@ body > section > div{
     margin: 0;
     list-style: none;
 }
-#main-navigation a:hover{
-    color: black;
+#main-navigation a{
+    color: inherit;
 }
-#main-navigation .active > a{
-    font-weight: bold;
+#main-navigation .active > a,
+#main-navigation .active > span{
+    text-decoration: none;
+    color: blue;
+}
+#main-navigation li.adminnode > span{
+    position: relative;
+    margin-left: 1em;
+}
+#main-navigation li.adminnode > span:before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0.7em;
+    margin-left: -1em;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #555;
+}
+
+#main-navigation > ul > li{
+    margin: 0 0 1em 0;
+    line-height: 2em;
+}
+#main-navigation > ul > li a,
+#main-navigation > ul > li span{
+    display: block;
 }
 /* Breadcrumbs */
 #breadcrumbs{
-    margin: 0 0 1em 0;
+    background: #f1f1f1;
+    margin: 0;
+    padding: 0 0 0 5%;
+    border-bottom: 1px solid #D2D2D2;
 }
 #breadcrumbs > ul{
     padding: 0;
@@ -78,7 +107,7 @@ body > section > div{
 /* Search form */
 #search-form{
     position: absolute;
-    top: 2em;
+    top: 0;
     right: 5%;
 }
 #search-form input[type=text]{
@@ -87,6 +116,27 @@ body > section > div{
 /* List */
 #counter, #pager, #pager li{
     display: inline;
+}
+/* Actions */
+p.actions{
+    margin-top: 1em;
+}
+p.actions > a, p.actions > input{
+    display: inline-block;
+    line-height: 2em;
+    padding: 0 1em;
+    border: 0;
+    border-radius: 0.5em;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+}
+.new{
+    background: #4BCF40;
+}
+.new:before{
+    content: "+";
+    margin: 0 0.5em 0 0;
 }
 /* Footer */
 footer{

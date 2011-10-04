@@ -42,7 +42,7 @@ class DashboardView(MethodView, AdminModuleMixin):
     """
     def get(self):
         return  render_template('dashboard.html',
-            admin=self.admin_module.admin, dashboard=self.admin_module)
+            admin=self.admin_module.admin, module=self.admin_module)
 
 
 def compute_args(request, update={}):
