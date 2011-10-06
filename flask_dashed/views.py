@@ -152,7 +152,8 @@ class ObjectFormView(MethodView, AdminModuleMixin):
             admin=self.admin_module.admin,
             module=self.admin_module,
             object=obj,
-            form=form
+            form=form,
+            is_new=is_new
         )
 
     @property

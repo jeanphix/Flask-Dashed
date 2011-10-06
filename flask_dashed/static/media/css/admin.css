@@ -33,9 +33,14 @@ body > section{
     padding-top: 1em;
     padding-bottom: 1em;
     position: relative;
+    min-height: 300px;
 }
 body > section h1{
     font-size: 110%;
+    margin-top: 0;
+}
+body > section h2{
+    font-size: 100%;
     margin-top: 0;
 }
 body > section > div{
@@ -43,6 +48,9 @@ body > section > div{
     padding-right: 5%;
     position: relative;
     clear: both;
+}
+body > section > div > h1{
+    text-decoration: underline;
 }
 /* Navigation */
 #main-navigation{
@@ -126,7 +134,7 @@ p.actions > a, p.actions > input{
     line-height: 2em;
     padding: 0 1em;
     border: 0;
-    border-radius: 0.5em;
+    border-radius: 0.3em;
     color: #fff;
     cursor: pointer;
     text-decoration: none;

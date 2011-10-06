@@ -1,0 +1,14 @@
+.widget{
+    border: 1px solid #D2D2D2;
+    width: 45%;
+}
+.widget h1{
+    font-weight: normal;
+    line-height: 2em;
+    padding: 0 1em;
+    background: #F1F1F1;
+    border-bottom: 1px solid #D2D2D2;
+}
+.widget > div{
+    padding: 0 1em 1em 1em;
+}

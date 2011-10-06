@@ -1,9 +1,12 @@
-{% macro render_form(form) %}
-    {{ form.csrf }}
+{% macro render_form(form, child=False) %}
+    {% if not child %}{{ form.csrf }}{% endif %}
     <fieldset>
         {% for field in form %}
             {% if field.type == "HiddenField" %}
                 {{ field }}
+            {% elif field.type == "FormField" %}
+                <h2>{{field.name}}</h2>
+                {{ render_form(field, True) }}
             {% else %}
                 {% if field.errors %}
                     <ul class="errors">

@@ -4,7 +4,7 @@
     {% for widget in module.widgets %}
         <section class="widget">
             <h1>{{ widget.title }}</h1>
-            {{ widget.render()|safe }}
+            <div>{{ widget.render()|safe }}</div>
         </section>
     {% endfor %}
 {% endblock %}
