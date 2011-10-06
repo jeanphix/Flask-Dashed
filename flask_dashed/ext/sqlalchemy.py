@@ -100,12 +100,12 @@ class ModelAdminModule(ObjectAdminModule):
         """New object instance new object."""
         return self.model()
 
-    def save_object(self, object):
+    def save_object(self, obj):
         """Saves object.
 
         :param object: the object to save
         """
-        self.db_session.add(object)
+        self.db_session.add(obj)
         self.db_session.commit()
 
     def delete_object(self, object):

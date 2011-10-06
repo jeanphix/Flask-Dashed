@@ -168,7 +168,7 @@ class ObjectFormView(MethodView, AdminModuleMixin):
                     request.view_args['pk'])
             else:
                 self._object = self.admin_module.create_object()
-            return self._object
+        return self._object
 
 
 class ObjectDeleteView(MethodView, AdminModuleMixin):

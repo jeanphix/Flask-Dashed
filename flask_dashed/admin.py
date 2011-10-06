@@ -327,12 +327,12 @@ class ObjectAdminModule(AdminModule):
         """
         raise NotImplementedError()
 
-    def get_form(self, object):
+    def get_form(self, obj):
         """Returns form initialy populate from object instance.
 
-        :param object: the edited object
+        :param obj: the object
         """
-        return self.form_class(obj=object)
+        return self.form_class(obj=obj)
 
     def get_object(self, pk=None):
         """Returns object retrieve by primary key.
