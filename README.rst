@@ -3,8 +3,11 @@ Introduction
 
 Flask-Dashed provides tools for build simple and extensible admin interfaces.
 
+List view:
 
 .. image:: https://github.com/jean-philippe/Flask-Dashed/raw/master/docs/_static/screen.png
+
+Form view:
 
 .. image:: https://github.com/jean-philippe/Flask-Dashed/raw/master/docs/_static/screen-edit.png
 
