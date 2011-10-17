@@ -30,7 +30,6 @@ img, table, td, blockquote, code, pre, textarea, input, video{
 }
 code, pre, samp, textarea, table, td{
     word-wrap: break-word;
-    white-space: pre-wrap;
 }
 a img{
     border: 0;
