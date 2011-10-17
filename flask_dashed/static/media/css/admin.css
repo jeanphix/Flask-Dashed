@@ -16,7 +16,29 @@ a, a:visited{
 }
 /* Flashes */
 /** @TODO: cross browser: **/
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
 @-webkit-keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@-moz-keyframes fade-out {
     0% {
         opacity: 1;
     }
@@ -35,11 +57,13 @@ a, a:visited{
     width: 280px;
     left: 50%;
     margin-left: -140px;
-    opacity: 0;
-    -webkit-animation-name: fade-out;
-    -webkit-animation-duration: 3s;
-    -webkit-animation-timing-function: ease-in;
-    -webkit-animation-iteration-count: 1;
+    opacity: 1;
+    animation: fade-out 3s;
+    animation-fill-mode: forwards;
+    -webkit-animation: fade-out 3s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation: fade-out 3s;
+    -moz-animation-fill-mode: forwards;
 }
 .flashes > li{
     text-align: center;
@@ -318,6 +342,7 @@ p.actions > a, p.actions > input{
     line-height: 2em;
     padding: 0 1em;
     background: #F1F1F1;
+    border-radius: 0.5em;
     border-bottom: 1px solid #D2D2D2;
 }
 .widget > div{
