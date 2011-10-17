@@ -15,7 +15,6 @@ a, a:visited{
     color: blue;
 }
 /* Flashes */
-/** @TODO: cross browser: **/
 @keyframes fade-out {
     0% {
         opacity: 1;
