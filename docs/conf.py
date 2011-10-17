@@ -88,7 +88,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'flask'
+html_theme = 'flask_small'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -211,3 +211,6 @@ man_pages = [
     ('index', 'flask_dashed', u'Flask_Dashed Documentation',
      [u'jean-philippe serafin'], 1)
 ]
+
+html_theme_options = {'index_logo': False,
+    'github_fork': 'jean-philippe/Flask-Dashed'}
