@@ -1,23 +1,25 @@
-{% macro render_form(form, child=False) %}
+{% macro render_form(form, legend=None, child=False) %}
     {% if not child %}{{ form.csrf }}{% endif %}
     <fieldset>
+        {% if legend %}<h2>{{ legend }}</h2>{% endif %}
         {% for field in form %}
             {% if field.type == "HiddenField" %}
                 {{ field }}
             {% elif field.type == "FormField" %}
-                <h2>{{field.name}}</h2>
-                {{ render_form(field, True) }}
+                </fieldset>
+                {{ render_form(field, field.label.text, True) }}
+                {% if not loop.last %}<fieldset>{% endif %}
             {% else %}
                 {% if field.errors %}
                     <ul class="errors">
                         {% for error in field.errors %}<li>{{ error }}{% endfor %}
                     </ul>
                 {% endif %}
-                <p id="{{field.name}}_holder"class="field{% if field.errors %} error{% endif %}">
+                <p id="{{field.name}}_holder" class="field{% if field.errors %} error{% endif %}">
                     {{ field.label }}
                     {{ field }} {% if field.flags.required %}*{% endif %}
                 </p>
             {% endif %}
         {% endfor %}
-    </fieldset>
+    {% if not child %}</fieldset>{% endif %}
 {% endmacro %}

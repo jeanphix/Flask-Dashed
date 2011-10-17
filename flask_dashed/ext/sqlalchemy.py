@@ -67,13 +67,13 @@ class ModelAdminModule(ObjectAdminModule):
     def list_query_factory(self):
         """Returns non filtered list query.
         """
-        return self.model.query
+        return self.db_session.query(self.model)
 
     @property
     def edit_query_factory(self):
         """Returns query for object edition.
         """
-        return self.model.query.get
+        return self.db_session.query(self.model).get
 
     def get_actions_for_object(self, object):
         """"Returns actions for object as and tuple list.
@@ -105,6 +105,7 @@ class ModelAdminModule(ObjectAdminModule):
 
         :param object: the object to save
         """
+        self.db_session.flush()
         self.db_session.add(obj)
         self.db_session.commit()
 

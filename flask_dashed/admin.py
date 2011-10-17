@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import copy
-
 from werkzeug import OrderedMultiDict
 
 from flask import Blueprint, url_for, request, abort
