@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+
 from functools import wraps
 from math import ceil
 from flask import render_template, request, flash, redirect, url_for
@@ -135,6 +136,8 @@ class ObjectFormView(MethodView, AdminModuleMixin):
         :param pk: the object primary key
         """
         obj = self.object
+        if pk and obj is None:
+            abort(404)
         is_new = pk is None
         form = self.admin_module.get_form(obj)
         form.process(request.form)
