@@ -116,6 +116,8 @@ class ObjectFormView(MethodView, AdminModuleMixin):
         :param pk: the object primary key
         """
         obj = self.object
+        if pk and obj is None:
+            abort(404)
         is_new = pk is None
         form = self.admin_module.get_form(obj)
         return  render_template(

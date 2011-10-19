@@ -105,7 +105,6 @@ class ModelAdminModule(ObjectAdminModule):
 
         :param object: the object to save
         """
-        self.db_session.flush()
         self.db_session.add(obj)
         self.db_session.commit()
 
