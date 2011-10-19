@@ -2,7 +2,7 @@
 import odict
 import wtforms
 
-from flask import Flask
+from flask import Flask, redirect, url_for
 
 from flask_dashed.admin import Admin
 from flask_dashed.ext.sqlalchemy import ModelAdminModule
@@ -76,9 +76,6 @@ db.drop_all()
 db.create_all()
 
 
-admin = Admin(app, title="my business administration")
-
-
 class ProfileForm(wtforms.Form):
     name = wtforms.TextField('Full name',
         [wtforms.validators.Length(min=4, max=255)])
@@ -139,6 +136,8 @@ class CompanyModule(ModelAdminModule):
     form_class = model_form(Company, exclude=('id',))
 
 
+admin = Admin(app, title="my business administration")
+
 security = admin.register_node('/security', 'security', 'security management')
 
 user_module = admin.register_module(UserModule, '/users', 'users',
@@ -151,8 +150,8 @@ admin.register_module(CompanyModule, '/companies', 'companies', 'companies')
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def redirect_to_admin():
+    return redirect('/admin')
 
 if __name__ == '__main__':
     app.run()
