@@ -17,7 +17,7 @@ from wtforms.ext.sqlalchemy.orm import model_form
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'toto'
+app.config['SECRET_KEY'] = 'secret'
 app.debug = True
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
