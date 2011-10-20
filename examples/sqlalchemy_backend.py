@@ -2,7 +2,7 @@
 import odict
 import wtforms
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect
 
 from flask_dashed.admin import Admin
 from flask_dashed.ext.sqlalchemy import ModelAdminModule
@@ -21,6 +21,7 @@ app.config['SECRET_KEY'] = 'secret'
 app.debug = True
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+# app.config['SQLALCHEMY_ECHO'] = True
 app.jinja_env.trim_blocks = True
 
 
@@ -34,6 +35,20 @@ class Company(db.Model):
 
     def __unicode__(self):
         return unicode(self.name)
+
+    def __repr__(self):
+        return '<Company %r>' % self.name
+
+
+class Warehouse(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    company_id = db.Column(db.Integer, db.ForeignKey(Company.id))
+
+    company = db.relationship(Company, backref=db.backref("warehouses"))
+
+    def __repr__(self):
+        return '<Warehouse %r>' % self.name
 
 
 class User(db.Model):
@@ -66,14 +81,32 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
 
-    users = db.relationship("User", secondary=user_group, backref="groups")
+    users = db.relationship("User", secondary=user_group,
+        backref=db.backref("groups", lazy='dynamic'))
 
     def __unicode__(self):
         return unicode(self.name)
 
+    def __repr__(self):
+        return '<Group %r>' % self.name
+
 
 db.drop_all()
 db.create_all()
+
+group = Group(name="admin")
+db_session.add(group)
+company = Company(name="My company")
+db_session.add(company)
+db_session.commit()
+
+
+class WarehouseForm(wtforms.Form):
+    name = wtforms.TextField('Name',
+        [wtforms.validators.Length(min=4, max=255)])
+    company = QuerySelectField(
+        query_factory=lambda: Company.query.all(),
+        allow_blank=True)
 
 
 class ProfileForm(wtforms.Form):
@@ -82,14 +115,14 @@ class ProfileForm(wtforms.Form):
     location = wtforms.TextField('Location',
         [wtforms.validators.Length(min=0, max=255)])
     company = QuerySelectField(
-        query_factory=db_session.query(Company).all, allow_blank=True)
+        query_factory=lambda: Company.query.all(), allow_blank=True)
 
 
 class UserForm(wtforms.Form):
     username = wtforms.TextField('Username',
         [wtforms.validators.Length(min=4, max=25)])
     groups = QuerySelectMultipleField(
-        query_factory=db_session.query(Group).all)
+        query_factory=lambda: Group.query.all())
     profile = wtforms.FormField(ProfileForm)
 
 
@@ -130,6 +163,12 @@ class GroupModule(ModelAdminModule):
     form_class = model_form(Group, exclude=('id',))
 
 
+class WarehouseModule(ModelAdminModule):
+    model = Warehouse
+    db_session = db_session
+    form_class = WarehouseForm
+
+
 class CompanyModule(ModelAdminModule):
     model = Company
     db_session = db_session
@@ -146,7 +185,11 @@ user_module = admin.register_module(UserModule, '/users', 'users',
 group_module = admin.register_module(GroupModule, '/groups', 'groups',
     'groups', parent=security)
 
-admin.register_module(CompanyModule, '/companies', 'companies', 'companies')
+company_module = admin.register_module(CompanyModule, '/companies',
+    'companies', 'companies')
+
+warehouse_module = admin.register_module(WarehouseModule, '/warehouses',
+    'warehouses', 'warehouses', parent=company_module)
 
 
 @app.route('/')

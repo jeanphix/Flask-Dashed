@@ -95,8 +95,6 @@ class ModelAdminModule(ObjectAdminModule):
         :param pk: the object primary key
         """
         obj = self.edit_query_factory(pk)
-        if obj:
-            self.db_session.add(obj)
         return obj
 
     def create_object(self):
@@ -108,7 +106,7 @@ class ModelAdminModule(ObjectAdminModule):
 
         :param object: the object to save
         """
-        self.db_session.merge(obj)
+        self.db_session.add(obj)
         self.db_session.commit()
 
     def delete_object(self, object):
