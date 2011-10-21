@@ -1,4 +1,4 @@
-include README *.py
+include README.rst *.py
 recursive-include flask_dashed/ *
 recursive-include docs *
 recursive-exclude docs *.pyc
