@@ -11,8 +11,6 @@ from flaskext.sqlalchemy import SQLAlchemy
 
 from sqlalchemy.orm import aliased, contains_eager
 
-from wtforms.ext.sqlalchemy.fields import QuerySelectMultipleField
-from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.ext.sqlalchemy.orm import model_form
 
 
@@ -62,7 +60,8 @@ class Profile(db.Model):
     id = db.Column(db.Integer, db.ForeignKey(User.id), primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     location = db.Column(db.String(255))
-    company_id = db.Column(db.Integer, db.ForeignKey(Company.id), nullable=True)
+    company_id = db.Column(db.Integer, db.ForeignKey(Company.id),
+        nullable=True)
 
     user = db.relationship(User, backref=db.backref("profile",
         remote_side=id, uselist=False, cascade="all, delete-orphan"))
@@ -143,7 +142,7 @@ class UserModule(ModelAdminModule):
 class GroupModule(ModelAdminModule):
     model = Group
     db_session = db_session
-    form_class = model_form(Group)
+    form_class = model_form(Group, only=['name'])
 
 
 class WarehouseModule(ModelAdminModule):
