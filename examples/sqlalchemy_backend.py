@@ -42,7 +42,7 @@ class Company(db.Model):
 
 class Warehouse(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255))
+    name = db.Column(db.String(255), nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey(Company.id))
 
     company = db.relationship(Company, backref=db.backref("warehouses"))
@@ -60,9 +60,9 @@ class User(db.Model):
 
 class Profile(db.Model):
     id = db.Column(db.Integer, db.ForeignKey(User.id), primary_key=True)
-    name = db.Column(db.String(255))
+    name = db.Column(db.String(255), nullable=False)
     location = db.Column(db.String(255))
-    company_id = db.Column(db.Integer, db.ForeignKey(Company.id))
+    company_id = db.Column(db.Integer, db.ForeignKey(Company.id), nullable=True)
 
     user = db.relationship(User, backref=db.backref("profile",
         remote_side=id, uselist=False, cascade="all, delete-orphan"))
@@ -79,7 +79,7 @@ user_group = db.Table(
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=True)
+    name = db.Column(db.String(255), unique=True, nullable=False)
 
     users = db.relationship("User", secondary=user_group,
         backref=db.backref("groups", lazy='dynamic'))
@@ -101,29 +101,12 @@ db_session.add(company)
 db_session.commit()
 
 
-class WarehouseForm(wtforms.Form):
-    name = wtforms.TextField('Name',
-        [wtforms.validators.Length(min=4, max=255)])
-    company = QuerySelectField(
-        query_factory=lambda: Company.query.all(),
-        allow_blank=True)
+UserForm = model_form(User, exclude=['password'])
 
 
-class ProfileForm(wtforms.Form):
-    name = wtforms.TextField('Full name',
-        [wtforms.validators.Length(min=4, max=255)])
-    location = wtforms.TextField('Location',
-        [wtforms.validators.Length(min=0, max=255)])
-    company = QuerySelectField(
-        query_factory=lambda: Company.query.all(), allow_blank=True)
-
-
-class UserForm(wtforms.Form):
-    username = wtforms.TextField('Username',
-        [wtforms.validators.Length(min=4, max=25)])
-    groups = QuerySelectMultipleField(
-        query_factory=lambda: Group.query.all())
-    profile = wtforms.FormField(ProfileForm)
+class UserForm(UserForm):
+    # Embeds OneToOne as FormField
+    profile = wtforms.FormField(model_form(Profile, exclude=['user']))
 
 
 class UserModule(ModelAdminModule):
@@ -160,19 +143,18 @@ class UserModule(ModelAdminModule):
 class GroupModule(ModelAdminModule):
     model = Group
     db_session = db_session
-    form_class = model_form(Group, exclude=('id',))
+    form_class = model_form(Group)
 
 
 class WarehouseModule(ModelAdminModule):
     model = Warehouse
     db_session = db_session
-    form_class = WarehouseForm
 
 
 class CompanyModule(ModelAdminModule):
     model = Company
     db_session = db_session
-    form_class = model_form(Company, exclude=('id',))
+    form_class = model_form(Company, only=['name'])
 
 
 admin = Admin(app, title="my business administration")

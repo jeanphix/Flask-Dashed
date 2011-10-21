@@ -15,9 +15,9 @@
                         {% for error in field.errors %}<li>{{ error }}{% endfor %}
                     </ul>
                 {% endif %}
-                <p id="{{field.name}}_holder" class="field{% if field.errors %} error{% endif %}">
+                <p id="{{field.name}}_holder" class="field{% if field.errors %} error{% endif %}{% if field.flags.required %} required{% endif %}">
                     {{ field.label }}
-                    {{ field }} {% if field.flags.required %}*{% endif %}
+                    {{ field }}
                 </p>
             {% endif %}
         {% endfor %}

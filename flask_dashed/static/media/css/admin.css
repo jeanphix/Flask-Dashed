@@ -151,6 +151,13 @@ tr:nth-child(even){
     color: #f00;
     list-style: none;
 }
+.required{
+    position: relative;
+}
+.required:after{
+    content: "*";
+    right: 0.5em;
+}
 form{
     padding: 0;
 }
@@ -193,6 +200,42 @@ textarea{
 select{
     width: 312px;
 }
+@media screen and (max-width: 660px){
+    label{
+        float: none;
+    }
+    input[type=text],
+    input[type=password],
+    select,
+    textarea{
+        width: 450px;
+    }
+    select{
+        width: 462px;
+    }
+}
+@media screen and (max-width: 590px){
+    input[type=text],
+    input[type=password],
+    select,
+    textarea{
+        width: 350px;
+    }
+    select{
+        width: 362px;
+    }
+}
+@media screen and (max-width: 470px){
+    input[type=text],
+    input[type=password],
+    select,
+    textarea{
+        width: 300px;
+    }
+    select{
+        width: 312px;
+    }
+}
 textarea{
     height: 5em;
 }
@@ -232,6 +275,14 @@ body > section > div{
     position: relative;
     clear: both;
 }
+@media screen and (max-width: 800px){
+    body > section > div{
+        margin: 2em 0 1em 0;
+        border-top: 1px solid #d2d2d2;
+        padding-top: 1em;
+    }
+}
+
 /* Navigation */
 #main-navigation{
     width: 250px;
@@ -239,6 +290,13 @@ body > section > div{
     right: 5%;
     top: 1em;
     border-left: 1px solid #d2d2d2;
+}
+@media screen and (max-width: 800px){
+    #main-navigation{
+        position: relative;
+        width: 100%;
+        border: 0;
+    }
 }
 #main-navigation ul{
     margin: 0;
@@ -350,6 +408,7 @@ p.actions > a, p.actions > input{
 /* Footer */
 footer{
     padding-top: 1em;
+    padding-bottom: 1em;
     border-top: 1px solid #D2D2D2;
 }
 /* Gradients */
