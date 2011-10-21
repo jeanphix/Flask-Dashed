@@ -15,7 +15,6 @@
             {% include 'breadcrumbs.html' %}
         {% endif %}
         <section>
-            {% include 'navigation.html' %}
             <div>
                 {% if get_flashed_messages(with_categories=true) %}
                     <ul class="flashes">
@@ -26,6 +25,7 @@
                 {% endif %}
                 {% block content %}<p>Welcome to flask admin</p>{% endblock %}
             </div>
+            {% include 'navigation.html' %}
         </section>
         <footer>
             {% include 'footer.html' %}
