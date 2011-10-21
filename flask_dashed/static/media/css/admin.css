@@ -272,6 +272,7 @@ body > section h2{
 body > section > div{
     margin-right: 250px;
     padding-right: 5%;
+    padding-bottom: 1em;
     position: relative;
     clear: both;
 }
@@ -280,6 +281,7 @@ body > section > div{
         margin: 0;
         border-bottom: 1px solid #d2d2d2;
         padding-top: 1em;
+        padding-right: 0;
     }
 }
 
@@ -296,6 +298,7 @@ body > section > div{
         position: relative;
         width: 100%;
         border: 0;
+        right: 0;
     }
 }
 #main-navigation ul{
@@ -390,9 +393,14 @@ p.actions > a, p.actions > input{
 }
 /* Dashboard */
 .widget{
-    width: 45%;
+    width: 50%;
     border: 1px solid #D2D2D2;
     border-radius: 0.5em;
+}
+@media screen and (max-width: 800px){
+    .widget{
+        width: 100%;
+    }
 }
 .widget h1{
     font-weight: normal;
