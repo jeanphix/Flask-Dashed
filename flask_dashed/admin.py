@@ -97,7 +97,7 @@ class Admin(object):
             main_dashboard = DefaultDashboard
 
         self.blueprint = Blueprint(endpoint, __name__,
-            static_folder='static', template_folder='templates/flask_dashed')
+            static_folder='static', template_folder='templates')
         self.app = app
         self.url_prefix = url_prefix
         self.endpoint = endpoint
@@ -263,14 +263,14 @@ class ObjectAdminModule(AdminModule):
     """
     # List relateds
     list_view = ObjectListView
-    list_template = 'list.html'
+    list_template = 'flask_dashed/list.html'
     list_fields = None
     list_title = 'list'
     list_per_page = 10
     searchable_fields = None
     order_by = None
     # Edit relateds
-    edit_template = 'edit.html'
+    edit_template = 'flask_dashed/edit.html'
     form_view = ObjectFormView
     form_class = None
     edit_title = 'edit object'

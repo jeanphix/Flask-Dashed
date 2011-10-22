@@ -42,7 +42,7 @@ class DashboardView(MethodView, AdminModuleMixin):
     :param admin_module: the admin module
     """
     def get(self):
-        return  render_template('dashboard.html',
+        return  render_template('flask_dashed/dashboard.html',
             admin=self.admin_module.admin, module=self.admin_module)
 
 

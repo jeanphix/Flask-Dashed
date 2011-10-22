@@ -9,10 +9,10 @@
     </head>
     <body>
         <header>
-            {% include 'header.html' %}
+            {% include 'flask_dashed/header.html' %}
         </header>
         {% if module %}
-            {% include 'breadcrumbs.html' %}
+            {% include 'flask_dashed/breadcrumbs.html' %}
         {% endif %}
         <section>
             <div>
@@ -25,10 +25,10 @@
                 {% endif %}
                 {% block content %}<p>Welcome to flask admin</p>{% endblock %}
             </div>
-            {% include 'navigation.html' %}
+            {% include 'flask_dashed/navigation.html' %}
         </section>
         <footer>
-            {% include 'footer.html' %}
+            {% include 'flask_dashed/footer.html' %}
         </footer>
     </body>
 </html>
