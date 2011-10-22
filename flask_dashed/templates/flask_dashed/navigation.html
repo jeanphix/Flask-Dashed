@@ -1,0 +1,24 @@
+<nav id="main-navigation" role="navigation">
+    <ul>
+        {% for node in admin.root_nodes recursive %}
+            <li class="{% if (node.url_path and request.path.startswith(admin.url_prefix + node.url_path)  and not node.url_path == '/') or (node.url_path == '/' and request.path == admin.url_prefix + '/' ) %} active{% endif %} {{ node.__class__.__name__|lower() }}">
+                {% if node.url %}
+                    <a href="{{ node.url }}" class="{{ node.class }}" title="{{ node.title }}">
+                {% else %}
+                    <span>
+                {% endif %}
+                {{ node.short_title }}
+                {% if node.url %}
+                    </a>
+                {% else %}
+                    </span>
+                {% endif %}
+                {% if node.children|length > 0 %}
+                    <ul>
+                        {{ loop(node.children) }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

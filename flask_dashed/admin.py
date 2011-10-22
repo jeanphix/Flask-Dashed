@@ -97,7 +97,7 @@ class Admin(object):
             main_dashboard = DefaultDashboard
 
         self.blueprint = Blueprint(endpoint, __name__,
-            static_folder='static', template_folder='templates')
+            static_folder='static', template_folder='templates/flask_dashed')
         self.app = app
         self.url_prefix = url_prefix
         self.endpoint = endpoint

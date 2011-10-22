@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% from "form.html" import render_form %}
+
+{% block title %}
+        {% if is_new %}
+            {{ module.new_title }}
+        {% else %}
+            {{ module.edit_title }}
+        {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if is_new %}
+            {{ module.new_title }}
+        {% else %}
+            {{ module.edit_title }}
+        {% endif %}
+    </h1>
+    <form method="post" action="?next={{ request.args.next }}">
+        {{ render_form(form) }}
+        <p class="actions">
+            <input type="submit" value="save" class="new" />
+        </p>
+    </form>
+{% endblock %}
