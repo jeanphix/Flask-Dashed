@@ -18,7 +18,7 @@ Form view:
 Installation
 ------------
 
-    pip install -e git+git://github.com/jean-philippe/Flask-Dashed.git#egg=Flask-Dashed
+    pip install Flask-Dashed
 
 
 Minimal usage

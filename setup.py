@@ -9,8 +9,8 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='Flask_Dashed',
-    version='0.1',
+    name='Flask-Dashed',
+    version='0.1a',
     url='https://github.com/jean-philippe/Flask-Dashed',
     license='mit',
     author='Jean-Philippe Serafin',
