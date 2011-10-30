@@ -5,8 +5,14 @@ from flask import url_for
 from flask_dashed.admin import ObjectAdminModule
 from flask_dashed.views import ObjectFormView
 from sqlalchemy.sql.expression import or_
-from wtforms.ext.sqlalchemy.orm import model_form
+from wtalchemy.orm import model_form as mf
 from flaskext.wtf import Form
+
+
+def model_form(*args, **kwargs):
+    if not 'base_class' in kwargs:
+        kwargs['base_class'] = Form
+    return mf(*args, **kwargs)
 
 
 class ModelAdminModule(ObjectAdminModule):
@@ -26,7 +32,7 @@ class ModelAdminModule(ObjectAdminModule):
                 cls.list_fields[column.name] = {'label': column.name,
                     'column': getattr(cls.model, column.name)}
         if not cls.form_class:
-            cls.form_class = model_form(cls.model, base_class=Form)
+            cls.form_class = model_form(cls.model, cls.db_session)
         return super(ModelAdminModule, cls).__new__(cls, *args, **kwargs)
 
     def get_object_list(self, search=None, order_by_name=None,

@@ -5,13 +5,11 @@ import wtforms
 from flask import Flask, redirect
 
 from flask_dashed.admin import Admin
-from flask_dashed.ext.sqlalchemy import ModelAdminModule
+from flask_dashed.ext.sqlalchemy import ModelAdminModule, model_form
 
 from flaskext.sqlalchemy import SQLAlchemy
 
 from sqlalchemy.orm import aliased, contains_eager
-
-from wtforms.ext.sqlalchemy.orm import model_form
 
 
 app = Flask(__name__)
@@ -100,12 +98,14 @@ db_session.add(company)
 db_session.commit()
 
 
-UserForm = model_form(User, exclude=['password'])
+UserForm = model_form(User, db_session, exclude=['password'])
 
 
 class UserForm(UserForm):
     # Embeds OneToOne as FormField
-    profile = wtforms.FormField(model_form(Profile, exclude=['user']))
+    profile = wtforms.FormField(
+        model_form(Profile, db_session, exclude=['user'],
+        base_class=wtforms.Form))
 
 
 class UserModule(ModelAdminModule):
@@ -142,7 +142,7 @@ class UserModule(ModelAdminModule):
 class GroupModule(ModelAdminModule):
     model = Group
     db_session = db_session
-    form_class = model_form(Group, only=['name'])
+    form_class = model_form(Group, db_session, only=['name'])
 
 
 class WarehouseModule(ModelAdminModule):
@@ -153,7 +153,7 @@ class WarehouseModule(ModelAdminModule):
 class CompanyModule(ModelAdminModule):
     model = Company
     db_session = db_session
-    form_class = model_form(Company, only=['name'])
+    form_class = model_form(Company, db_session, only=['name'])
 
 
 admin = Admin(app, title="my business administration")

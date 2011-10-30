@@ -25,7 +25,8 @@ setup(
     install_requires=[
         'Flask',
         'Flask-WTF',
-        'odict'
+        'odict',
+        'WTAlchemy',
     ],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',

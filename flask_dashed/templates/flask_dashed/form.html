@@ -1,5 +1,12 @@
 {% macro render_form(form, legend=None, child=False) %}
-    {% if not child %}{{ form.csrf }}{% endif %}
+    {% if not child %}
+        {{ form.csrf }}
+        {% if form.csrf.errors %}
+            <ul class="errors">
+                {% for error in form.csrf.errors %}<li>{{ error }}{% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
     <fieldset>
         {% if legend %}<h2>{{ legend }}</h2>{% endif %}
         {% for field in form %}
