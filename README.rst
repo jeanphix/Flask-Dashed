@@ -36,6 +36,9 @@ Code::
         app.run()
 
 
+Sample application: http://github.com/jean-philippe/flask-dashed-demo
+
+
 Deal with security
 ------------------
 
