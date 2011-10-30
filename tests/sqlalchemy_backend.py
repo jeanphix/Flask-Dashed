@@ -13,6 +13,7 @@ from sqlalchemy.orm import aliased, contains_eager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SECRET_KEY'] = 'secret'
 db = SQLAlchemy(app)
 admin = Admin(app)
 
@@ -106,9 +107,11 @@ class BaseTest(TestCase):
 class AutoModelAdminModuleTest(BaseTest):
 
     class AutoBookModule(ModelAdminModule):
+        db_session = db.session
         model = Book
 
     class AutoAuthorModule(ModelAdminModule):
+        db_session = db.session
         model = Author
 
     def create_app(self):
