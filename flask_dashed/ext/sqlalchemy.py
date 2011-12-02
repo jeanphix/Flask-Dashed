@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
+from werkzeug import OrderedMultiDict
 from flask import url_for
 from flask_dashed.admin import ObjectAdminModule
 from flask_dashed.views import ObjectFormView
@@ -10,6 +11,8 @@ from flaskext.wtf import Form
 
 
 def model_form(*args, **kwargs):
+    """Returns form class for model.
+    """
     if not 'base_class' in kwargs:
         kwargs['base_class'] = Form
     return mf(*args, **kwargs)
@@ -27,7 +30,7 @@ class ModelAdminModule(ObjectAdminModule):
         if not cls.model:
             raise Exception('ModelAdminModule must provide `model` attribute')
         if not cls.list_fields:
-            cls.list_fields = {}
+            cls.list_fields = OrderedMultiDict()
             for column in cls.model.__table__._columns:
                 cls.list_fields[column.name] = {'label': column.name,
                     'column': getattr(cls.model, column.name)}

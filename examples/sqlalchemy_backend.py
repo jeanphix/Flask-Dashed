@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import odict
 import wtforms
+from werkzeug import OrderedMultiDict
 
 from flask import Flask, redirect
 
@@ -17,7 +17,6 @@ app.config['SECRET_KEY'] = 'secret'
 app.debug = True
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-# app.config['SQLALCHEMY_ECHO'] = True
 app.jinja_env.trim_blocks = True
 
 
@@ -113,7 +112,7 @@ class UserModule(ModelAdminModule):
     db_session = db_session
     profile_alias = aliased(Profile)
 
-    list_fields = odict.odict((
+    list_fields = OrderedMultiDict((
         ('id', {'label': 'id', 'column': User.id}),
         ('username', {'label': 'username', 'column': User.username}),
         ('profile.name', {'label': 'name', 'column': profile_alias.name}),
