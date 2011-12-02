@@ -30,7 +30,7 @@ def secure(endpoint, function, http_code):
 class AdminModuleMixin(object):
     """Provides admin node.
 
-    :param admin_module: the admin module
+    :param admin_module: The admin module
     """
     def __init__(self, admin_module):
         self.admin_module = admin_module
@@ -39,7 +39,7 @@ class AdminModuleMixin(object):
 class DashboardView(MethodView, AdminModuleMixin):
     """Displays user dashboard.
 
-    :param admin_module: the admin module
+    :param admin_module: The admin module
     """
     def get(self):
         return  render_template('flask_dashed/dashboard.html',
@@ -50,7 +50,7 @@ def compute_args(request, update={}):
     """Merges all view_args and request args then update with
     user args.
 
-    :param update: the user args
+    :param update: The user args
     """
     args = request.view_args.copy()
     args = dict(dict(request.args.to_dict(flat=True)), **args)
@@ -66,7 +66,7 @@ class ObjectListView(MethodView, AdminModuleMixin):
     def get(self, page=1):
         """Displays object list.
 
-        :param page: the current page index
+        :param page: The current page index
         """
         page = int(page)
         search = request.args.get('search', None)
@@ -109,12 +109,12 @@ class ObjectListView(MethodView, AdminModuleMixin):
 class ObjectFormView(MethodView, AdminModuleMixin):
     """Creates or updates object.
 
-    :param admin_module: the admin module
+    :param admin_module: The admin module
     """
     def get(self, pk=None):
         """Displays form.
 
-        :param pk: the object primary key
+        :param pk: The object primary key
         """
         obj = self.object
         if pk and obj is None:
@@ -133,7 +133,7 @@ class ObjectFormView(MethodView, AdminModuleMixin):
     def post(self, pk=None):
         """Process form.
 
-        :param pk: the object primary key
+        :param pk: The object primary key
         """
         obj = self.object
         if pk and obj is None:
@@ -165,7 +165,7 @@ class ObjectFormView(MethodView, AdminModuleMixin):
     def object(self):
         """Gets object required by the form.
 
-        :param pk: the object primary key
+        :param pk: The object primary key
         """
         if not hasattr(self, '_object'):
             if 'pk' in request.view_args:
@@ -184,7 +184,7 @@ class ObjectDeleteView(MethodView, AdminModuleMixin):
     def get(self, pk):
         """Deletes object at given pk.
 
-        :param pk: the primary key
+        :param pk: The primary key
         """
         obj = self.admin_module.get_object(pk)
         self.admin_module.delete_object(obj)

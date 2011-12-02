@@ -32,13 +32,13 @@ class AdminNode(object):
     """An AdminNode just act as navigation container, it doesn't provide any
     rules.
 
-    :param admin: the parent admin object
-    :param url_prefix: the url prefix
-    :param enpoint: the endpoint
-    :param short_title: the short module title use on navigation
+    :param admin: The parent admin object
+    :param url_prefix: The url prefix
+    :param enpoint: The endpoint
+    :param short_title: The short module title use on navigation
         & breadcrumbs
-    :param title: the long title
-    :param parent: the parent node
+    :param title: The long title
+    :param parent: The parent node
     """
     def __init__(self, admin, url_prefix, endpoint, short_title, title=None,
             parent=None):
@@ -73,7 +73,7 @@ class AdminNode(object):
     def secure(self, http_code=403):
         """Gives a way to secure specific url path.
 
-        :param http_code: the response http code when False
+        :param http_code: The response http code when False
         """
         def decorator(f):
             self.admin.add_path_security(self.url_path, f, http_code)
@@ -84,10 +84,10 @@ class AdminNode(object):
 class Admin(object):
     """Class that provides a way to add admin interface to Flask applications.
 
-    :param app: the Flask application
-    :param url_prefix: the url prefix
-    :param main_dashboard: the main dashboard object
-    :param endpoint: the endpoint
+    :param app: The Flask application
+    :param url_prefix: The url prefix
+    :param main_dashboard: The main dashboard object
+    :param endpoint: The endpoint
     """
     def __init__(self, app, url_prefix="/admin", title="flask-dashed",
             main_dashboard=None, endpoint='admin'):
@@ -118,12 +118,12 @@ class Admin(object):
             parent=None, node_class=AdminNode):
         """Registers admin node.
 
-        :param url_prefix: the url prefix
-        :param endpoint: the endpoint
-        :param short_title: the short title
-        :param title: the long title
-        :param parent: the parent node path
-        :param node_class: the class for node objects
+        :param url_prefix: The url prefix
+        :param endpoint: The endpoint
+        :param short_title: The short title
+        :param title: The long title
+        :param parent: The parent node path
+        :param node_class: The class for node objects
         """
         return self._add_node(node_class, url_prefix, endpoint, short_title,
             title=title, parent=parent)
@@ -138,7 +138,6 @@ class Admin(object):
     def _add_node(self, node_class, url_prefix, endpoint, short_title,
         title=None, parent=None):
         """Registers new node object to current admin object.
-
         """
         title = short_title if not title else title
         if parent and not issubclass(parent.__class__, AdminNode):
@@ -158,16 +157,16 @@ class Admin(object):
     def add_path_security(self, path, function, http_code=403):
         """Registers security function for given path.
 
-        :param path: the endpoint to secure
-        :param function: the security function
-        :param http_code: the response http code
+        :param path: The endpoint to secure
+        :param function: The security function
+        :param http_code: The response http code
         """
         self.secure_functions.add(path, (function, http_code))
 
     def check_path_security(self, path):
         """Checks security for specific and path.
 
-        :param path: the path to check
+        :param path: The path to check
         """
         for key in self.secure_functions.iterkeys():
             if path.startswith("%s%s" % (self.url_prefix, key)):
@@ -179,13 +178,13 @@ class Admin(object):
 class AdminModule(AdminNode):
     """Class that provides a way to create simple admin module.
 
-    :param admin: the parent admin object
-    :param url_prefix: the url prefix
-    :param enpoint: the endpoint
+    :param admin: The parent admin object
+    :param url_prefix: The url prefix
+    :param enpoint: The endpoint
     :param short_title: the short module title use on navigation
         & breadcrumbs
-    :param title: the long title
-    :param parent: the parent node
+    :param title: The long title
+    :param parent: The parent node
     """
     def __init__(self, *args, **kwargs):
         super(AdminModule, self).__init__(*args, **kwargs)
@@ -196,9 +195,9 @@ class AdminModule(AdminNode):
         """Adds a routing rule to the application from relative endpoint.
         `view_class` is copied as we need to dynamically apply decorators.
 
-        :param rule: the rule
-        :param endpoint: the endpoint
-        :param view_func: the view
+        :param rule: The rule
+        :param endpoint: The endpoint
+        :param view_func: The view
         """
         class ViewClass(view_func.view_class):
             pass
@@ -235,8 +234,8 @@ class AdminModule(AdminNode):
     def secure_endpoint(self, endpoint,  http_code=403):
         """Gives a way to secure specific url path.
 
-        :param endpoint: the endpoint to protect
-        :param http_code: the response http code when False
+        :param endpoint: The endpoint to protect
+        :param http_code: The response http code when False
         """
         def decorator(f):
             self._secure_enpoint(endpoint, f, http_code)
@@ -246,9 +245,9 @@ class AdminModule(AdminNode):
     def _secure_enpoint(self, endpoint, secure_function, http_code):
         """Secure enpoint view function via `secure` decorator.
 
-        :param enpoint: the endpoint to secure
-        :param secure_function: the function to check
-        :param http_code: the response http code when False.
+        :param enpoint: The endpoint to secure
+        :param secure_function: The function to check
+        :param http_code: The response http code when False.
         """
         rule, endpoint, view_func = self.rules.get(endpoint)
         view_func.view_class.dispatch_request =\
@@ -303,39 +302,39 @@ class ObjectAdminModule(AdminModule):
             order_by_direction=None, offset=None, limit=None):
         """Returns objects list ordered and filtered.
 
-        :param search: the search string for quick filtering
-        :param order_by_field: the ordering field
-        :param order_by_direction: the ordering direction
-        :param offset: the pagintation offset
-        :param limit: the pagination limit
+        :param search: The search string for quick filtering
+        :param order_by_field: The ordering field
+        :param order_by_direction: The ordering direction
+        :param offset: The pagintation offset
+        :param limit: The pagination limit
         """
         raise NotImplementedError()
 
     def count_list(self, search=None):
         """Counts filtered object list.
 
-        :param search: the search string for quick filtering.
+        :param search: The search string for quick filtering.
         """
         raise NotImplementedError()
 
     def get_actions_for_object(self, object):
         """Returns action available for each object.
 
-        :param object: the raw object
+        :param object: The raw object
         """
         raise NotImplementedError()
 
     def get_form(self, obj):
         """Returns form initialy populate from object instance.
 
-        :param obj: the object
+        :param obj: The object
         """
         return self.form_class(obj=obj)
 
     def get_object(self, pk=None):
         """Returns object retrieve by primary key.
 
-        :param pk: the object primary key
+        :param pk: The object primary key
         """
         raise NotImplementedError()
 
@@ -346,13 +345,13 @@ class ObjectAdminModule(AdminModule):
     def save_object(self, object):
         """Persits object.
 
-        :param object: the object to persist
+        :param object: The object to persist
         """
         raise NotImplementedError()
 
     def delete_object(self, object):
         """Deletes object.
 
-        :param object: the object to delete
+        :param object: The object to delete
         """
         raise NotImplementedError()

@@ -42,11 +42,11 @@ class ModelAdminModule(ObjectAdminModule):
             order_by_direction=None, offset=None, limit=None):
         """Returns ordered, filtered and limited query.
 
-        :param search: the string for search filter
-        :param order_by_name: the field name to order by
-        :param order_by_direction: the field direction
-        :param offset: the offset position
-        :param limit: the limit
+        :param search: The string for search filter
+        :param order_by_name: The field name to order by
+        :param order_by_direction: The field direction
+        :param offset: The offset position
+        :param limit: The limit
         """
         limit = limit if limit else self.list_per_page
         query = self._get_filtered_query(self.list_query_factory, search)
@@ -68,7 +68,7 @@ class ModelAdminModule(ObjectAdminModule):
     def count_list(self, search=None):
         """Counts filtered list.
 
-        :param search: the string for quick search
+        :param search: The string for quick search
         """
         query = self._get_filtered_query(self.list_query_factory, search)
         return query.count()
@@ -88,7 +88,7 @@ class ModelAdminModule(ObjectAdminModule):
     def get_actions_for_object(self, object):
         """"Returns actions for object as and tuple list.
 
-        :param object: the object
+        :param object: The object
         """
         return [
             ('edit', 'edit', 'Edit object', url_for(
@@ -102,7 +102,7 @@ class ModelAdminModule(ObjectAdminModule):
     def get_object(self, pk):
         """Gets back object by primary key.
 
-        :param pk: the object primary key
+        :param pk: The object primary key
         """
         obj = self.edit_query_factory(pk)
         return obj
@@ -114,7 +114,7 @@ class ModelAdminModule(ObjectAdminModule):
     def save_object(self, obj):
         """Saves object.
 
-        :param object: the object to save
+        :param object: The object to save
         """
         self.db_session.add(obj)
         self.db_session.commit()
@@ -122,7 +122,7 @@ class ModelAdminModule(ObjectAdminModule):
     def delete_object(self, object):
         """Deletes object.
 
-        :param object: the object to delete
+        :param object: The object to delete
         """
         self.db_session.delete(object)
         self.db_session.commit()
@@ -130,8 +130,8 @@ class ModelAdminModule(ObjectAdminModule):
     def _get_filtered_query(self, query, search=None):
         """Filters query.
 
-        :param query: the non filtered query
-        :param search: the string for quick search
+        :param query: The non filtered query
+        :param search: The string for quick search
         """
         if search and self.searchable_fields:
             condition = None

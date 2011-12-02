@@ -20,7 +20,7 @@ class DashboardWidget():
     def __init__(self, title):
         """Initialize a new widget instance.
 
-        :param title: the widget title
+        :param title: The widget title
         """
         self.title = title
 

@@ -10,8 +10,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='Flask-Dashed',
-    version='0.1a',
-    url='https://github.com/jean-philippe/Flask-Dashed',
+    version='0.1b',
+    url='https://github.com/jeanphix/Flask-Dashed',
     license='mit',
     author='Jean-Philippe Serafin',
     author_email='serafinjp@gmail.com',
@@ -25,7 +25,6 @@ setup(
     install_requires=[
         'Flask',
         'Flask-WTF',
-        'odict',
         'WTAlchemy',
     ],
     classifiers=[
