@@ -7,11 +7,11 @@ Online demonstration: http://flask-dashed.jeanphi.fr/ (Github account required).
 
 List view:
 
-.. image:: https://github.com/jean-philippe/Flask-Dashed/raw/master/docs/_static/screen.png
+.. image:: https://github.com/jeanphix/Flask-Dashed/raw/master/docs/_static/screen.png
 
 Form view:
 
-.. image:: https://github.com/jean-philippe/Flask-Dashed/raw/master/docs/_static/screen-edit.png
+.. image:: https://github.com/jeanphix/Flask-Dashed/raw/master/docs/_static/screen-edit.png
 
 
 
@@ -36,7 +36,7 @@ Code::
         app.run()
 
 
-Sample application: http://github.com/jean-philippe/flask-dashed-demo
+Sample application: http://github.com/jeanphix/flask-dashed-demo
 
 
 Deal with security
