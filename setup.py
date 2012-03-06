@@ -25,7 +25,6 @@ setup(
     install_requires=[
         'Flask',
         'Flask-WTF',
-        'WTAlchemy',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
