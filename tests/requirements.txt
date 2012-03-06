@@ -3,3 +3,4 @@ hg+https://bitbucket.org/simplecodes/wtforms#egg=WTForms
 Flask-SQLAlchemy
 Flask-Testing
 Flask-WTF
+git+git://github.com/jeanphix/Flask-Dashed.git#egg=flask_dashed
