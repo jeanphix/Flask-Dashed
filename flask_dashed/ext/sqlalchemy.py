@@ -6,7 +6,7 @@ from flask import url_for
 from flask_dashed.admin import ObjectAdminModule
 from flask_dashed.views import ObjectFormView
 from sqlalchemy.sql.expression import or_
-from wtalchemy.orm import model_form as mf
+from wtforms.ext.sqlalchemy.orm import model_form as mf
 from flaskext.wtf import Form
 
 
