@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 import wtforms
-import odict
+from werkzeug import OrderedMultiDict
 from flask import Flask, url_for
 from flaskext.testing import TestCase
 from flaskext.sqlalchemy import SQLAlchemy
@@ -197,7 +197,7 @@ class ExplicitModelAdminModuleTest(BaseTest):
         db_session = db.session
         author_alias = aliased(Author)
 
-        list_fields = odict.odict((
+        list_fields = OrderedMultiDict((
             ('id', {'label': 'id', 'column': Book.id}),
             ('title', {'label': 'book title', 'column': Book.title}),
             ('year', {'label': 'year', 'column': Book.year}),
