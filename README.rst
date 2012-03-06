@@ -1,6 +1,8 @@
 Introduction
 ------------
 
+.. image:: https://travis-ci.org/jeanphix/Flask-Dashed.png
+
 Flask-Dashed provides tools for build simple and extensible admin interfaces.
 
 Online demonstration: http://flask-dashed.jeanphi.fr/ (Github account required).
