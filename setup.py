@@ -24,6 +24,7 @@ setup(
     platforms='any',
     install_requires=[
         'Flask',
+        'WTForms== 1.0.2',
         'Flask-WTF',
     ],
     classifiers=[
