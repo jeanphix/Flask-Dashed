@@ -2,13 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Api &mdash; Flask_Dashed v0.1b documentation</title>
+    <title>Api &mdash; Flask_Dashed 0.1b documentation</title>
+    
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -22,7 +25,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-    <link rel="top" title="Flask_Dashed v0.1b documentation" href="index.html" />
+    <link rel="top" title="Flask_Dashed 0.1b documentation" href="index.html" />
     <link rel="prev" title="Welcome to Flask_Dashed’s documentation!" href="index.html" /> 
   </head>
   <body>
@@ -47,7 +50,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>app</strong> &#8211; The Flask application</li>
 <li><strong>url_prefix</strong> &#8211; The url prefix</li>
 <li><strong>main_dashboard</strong> &#8211; The main dashboard object</li>
@@ -59,13 +62,13 @@
 </table>
 <dl class="method">
 <dt id="admin.Admin.add_path_security">
-<tt class="descname">add_path_security</tt><big>(</big><em>path</em>, <em>function</em>, <em>http_code=403</em><big>)</big><a class="headerlink" href="#admin.Admin.add_path_security" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">add_path_security</tt><big>(</big><em>path</em>, <em>function</em>, <em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.add_path_security"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.add_path_security" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers security function for given path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>path</strong> &#8211; The endpoint to secure</li>
 <li><strong>function</strong> &#8211; The security function</li>
 <li><strong>http_code</strong> &#8211; The response http code</li>
@@ -78,13 +81,13 @@
 
 <dl class="method">
 <dt id="admin.Admin.check_path_security">
-<tt class="descname">check_path_security</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#admin.Admin.check_path_security" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">check_path_security</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="_modules/admin.html#Admin.check_path_security"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.Admin.check_path_security" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks security for specific and path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; The path to check</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; The path to check</td>
 </tr>
 </tbody>
 </table>
@@ -104,7 +107,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>url_prefix</strong> &#8211; The url prefix</li>
 <li><strong>endpoint</strong> &#8211; The endpoint</li>
 <li><strong>short_title</strong> &#8211; The short title</li>
@@ -146,7 +149,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>admin</strong> &#8211; The parent admin object</li>
 <li><strong>url_prefix</strong> &#8211; The url prefix</li>
 <li><strong>enpoint</strong> &#8211; The endpoint</li>
@@ -161,19 +164,19 @@ rules.</p>
 </table>
 <dl class="attribute">
 <dt id="admin.AdminNode.parents">
-<tt class="descname">parents</tt><a class="headerlink" href="#admin.AdminNode.parents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">parents</tt><a class="reference internal" href="_modules/admin.html#AdminNode.parents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminNode.parents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all parent hierarchy as list. Usefull for breadcrumbs.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="admin.AdminNode.secure">
-<tt class="descname">secure</tt><big>(</big><em>http_code=403</em><big>)</big><a class="headerlink" href="#admin.AdminNode.secure" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">secure</tt><big>(</big><em>http_code=403</em><big>)</big><a class="reference internal" href="_modules/admin.html#AdminNode.secure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminNode.secure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gives a way to secure specific url path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>http_code</strong> &#8211; The response http code when False</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>http_code</strong> &#8211; The response http code when False</td>
 </tr>
 </tbody>
 </table>
@@ -181,7 +184,7 @@ rules.</p>
 
 <dl class="attribute">
 <dt id="admin.AdminNode.url_path">
-<tt class="descname">url_path</tt><a class="headerlink" href="#admin.AdminNode.url_path" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">url_path</tt><a class="reference internal" href="_modules/admin.html#AdminNode.url_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminNode.url_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the url path relative to admin one.</p>
 </dd></dl>
 
@@ -195,7 +198,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>admin</strong> &#8211; The parent admin object</li>
 <li><strong>url_prefix</strong> &#8211; The url prefix</li>
 <li><strong>enpoint</strong> &#8211; The endpoint</li>
@@ -217,7 +220,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>rule</strong> &#8211; The rule</li>
 <li><strong>endpoint</strong> &#8211; The endpoint</li>
 <li><strong>view_func</strong> &#8211; The view</li>
@@ -236,7 +239,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>endpoint</strong> &#8211; The endpoint to protect</li>
 <li><strong>http_code</strong> &#8211; The response http code when False</li>
 </ul>
@@ -248,7 +251,7 @@ rules.</p>
 
 <dl class="attribute">
 <dt id="admin.AdminModule.url">
-<tt class="descname">url</tt><a class="headerlink" href="#admin.AdminModule.url" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">url</tt><a class="reference internal" href="_modules/admin.html#AdminModule.url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#admin.AdminModule.url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns first registered (main) rule as url.</p>
 </dd></dl>
 
@@ -269,7 +272,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>search</strong> &#8211; The string for quick search</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>search</strong> &#8211; The string for quick search</td>
 </tr>
 </tbody>
 </table>
@@ -289,7 +292,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; The object to delete</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; The object to delete</td>
 </tr>
 </tbody>
 </table>
@@ -315,7 +318,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; The object</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; The object</td>
 </tr>
 </tbody>
 </table>
@@ -329,7 +332,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pk</strong> &#8211; The object primary key</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pk</strong> &#8211; The object primary key</td>
 </tr>
 </tbody>
 </table>
@@ -343,7 +346,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>search</strong> &#8211; The string for search filter</li>
 <li><strong>order_by_name</strong> &#8211; The field name to order by</li>
 <li><strong>order_by_direction</strong> &#8211; The field direction</li>
@@ -370,7 +373,7 @@ rules.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; The object to save</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object</strong> &#8211; The object to save</td>
 </tr>
 </tbody>
 </table>
