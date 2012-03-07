@@ -6,3 +6,4 @@ temp
 *.swp
 mixup
 docs/build
+.sass*
