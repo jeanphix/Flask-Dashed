@@ -9,11 +9,11 @@ Online demonstration: http://flask-dashed.jeanphi.fr/ (Github account required).
 
 List view:
 
-.. image:: https://github.com/jeanphix/Flask-Dashed/raw/master/docs/_static/screen.png
+.. image:: https://github.com/jeanphix/Flask-Dashed/raw/dev/docs/_static/screen.png
 
 Form view:
 
-.. image:: https://github.com/jeanphix/Flask-Dashed/raw/master/docs/_static/screen-edit.png
+.. image:: https://github.com/jeanphix/Flask-Dashed/raw/dev/docs/_static/screen-edit.png
 
 
 
