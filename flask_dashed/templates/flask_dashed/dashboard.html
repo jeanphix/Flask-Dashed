@@ -1,10 +1,12 @@
 {% extends 'flask_dashed/base.html' %}
 
 {% block content %}
-    {% for widget in module.widgets %}
-        <section class="widget">
-            <h1>{{ widget.title }}</h1>
-            <div>{{ widget.render()|safe }}</div>
-        </section>
-    {% endfor %}
+    <div>
+        {% for widget in module.widgets %}
+            <section class="widget">
+                <h1>{{ widget.title }}</h1>
+                <div>{{ widget.render()|safe }}</div>
+            </section>
+        {% endfor %}
+    </div>
 {% endblock %}

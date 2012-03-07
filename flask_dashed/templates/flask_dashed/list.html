@@ -8,7 +8,9 @@
     <h1>{{ module.list_title }}</h1>
     {% if module.searchable_fields %}
         <form id="search-form" action="" method="get">
-            <input type="text" name="search" placeholder="search" value="{{ request.args['search'] }}" />
+            <fieldset>
+                <input type="text" name="search" placeholder="search" value="{{ request.args['search'] }}" />
+            </fieldset>
             <input type="submit" value="go!" />
         </form>
     {% endif %}
