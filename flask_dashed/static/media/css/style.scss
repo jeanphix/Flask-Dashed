@@ -1,5 +1,8 @@
 @import "../../../../mixup/mixin/default/all";
 @import "../../../../mixup/mixin/style";
+
+$containerPadding: 30px;
+
 @import "../../../../mixup/mixin/component";
 @import "../../../../mixup/mixin/layout";
 
@@ -27,9 +30,10 @@ header {
     @include gradient-vertical();
     > h1 {
         margin: 0;
-        font-size: 1em;
+        font-size: 120%;
         line-height: 3em;
         font-weight: normal;
+        text-shadow: 1px 1px #333;
         > a,
         > a:visited {
             color: #fff;

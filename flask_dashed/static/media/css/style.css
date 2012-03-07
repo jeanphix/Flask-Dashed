@@ -14,8 +14,8 @@ body > section > div,
 footer {
   display: block;
   width: auto;
-  padding-left: 2em;
-  padding-right: 2em; }
+  padding-left: 30px;
+  padding-right: 30px; }
 
 header {
   background-color: #474747;
@@ -28,9 +28,10 @@ header {
   background-repeat: repeat-x; }
   header > h1 {
     margin: 0;
-    font-size: 1em;
+    font-size: 120%;
     line-height: 3em;
-    font-weight: normal; }
+    font-weight: normal;
+    text-shadow: 1px 1px #333; }
     header > h1 > a,
     header > h1 > a:visited {
       color: #fff;
