@@ -3,8 +3,8 @@ import unittest
 import wtforms
 from werkzeug import OrderedMultiDict
 from flask import Flask, url_for
-from flaskext.testing import TestCase
-from flaskext.sqlalchemy import SQLAlchemy
+from flask.ext.testing import TestCase
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask_dashed.admin import Admin, ObjectAdminModule
 from flask_dashed.ext.sqlalchemy import ModelAdminModule
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
