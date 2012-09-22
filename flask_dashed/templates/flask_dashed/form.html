@@ -10,7 +10,7 @@
     <fieldset>
         {% if legend %}<h2>{{ legend }}</h2>{% endif %}
         {% for field in form %}
-            {% if field.type == "HiddenField" %}
+            {% if field.widget.__class__.__name__ == "HiddenInput" %}
                 {{ field }}
             {% elif field.type == "FormField" %}
                 </fieldset>
