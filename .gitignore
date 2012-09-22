@@ -7,4 +7,4 @@ temp
 mixup
 docs/build
 .sass*
-env
+.env
