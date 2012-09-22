@@ -354,12 +354,11 @@ table {
   margin: 1em 0;
   border-collapse: separate;
   border-spacing: 0;
-  th: a;
 }
 table tbody > tr:nth-child(odd) {
   background: #fafafa;
 }
-table thead > trfirst-child > th {
+table thead > tr:first-child > th {
   border-top: 0;
 }
 table th,
@@ -368,7 +367,8 @@ table td {
   text-align: left;
   border-top: #ddd 1px solid;
 }
-table th a:visited {
+table th a:visited,
+table th a {
   color: inherit;
 }
 table .asc,
@@ -376,9 +376,9 @@ table .desc {
   position: relative;
 }
 table .asc > a,
-table .desc > a,
-table .asc padding 0001em,
-table .desc padding 0001em,
+table .desc > a {
+  padding: 0 0 0 1em;
+}
 table .asc > a:before,
 table .desc > a:before {
   content: "";
