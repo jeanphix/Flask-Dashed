@@ -350,7 +350,6 @@ form .required:after {
 }
 table {
   max-width: 100%;
-  width: 100%;
   margin: 1em 0;
   border-collapse: separate;
   border-spacing: 0;
@@ -361,8 +360,12 @@ table tbody > tr:nth-child(odd) {
 table thead > tr:first-child > th {
   border-top: 0;
 }
+table th {
+  font-weight: normal;
+}
 table th,
 table td {
+  margin-right: 1em;
   padding: 0.5em 1em;
   text-align: left;
   border-top: #ddd 1px solid;
