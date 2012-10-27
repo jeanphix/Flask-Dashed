@@ -331,6 +331,23 @@ class ObjectAdminModule(AdminModule):
         """
         return self.form_class(obj=obj)
 
+    def get_action_for_field(self, field, obj):
+        """Returns title and link for given list field and object.
+
+        :param field: The field path.
+        :param object: The line object.
+        """
+        title, url = None, None
+        field = self.list_fields[field]
+        if 'action' in field:
+            title = field['action'].get('title', None)
+            if callable(title):
+                title = title(obj)
+            url = field['action'].get('url', None)
+            if callable(url):
+                url = url(obj)
+        return title, url
+
     def get_object(self, pk=None):
         """Returns object retrieve by primary key.
 

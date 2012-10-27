@@ -41,7 +41,20 @@
                 {% for object in objects %}
                     <tr>
                         {% for field in module.list_fields %}
-                            <td>{% if object|recursive_getattr(field) %}{{ object|recursive_getattr(field) }}{% endif %}</td>
+                            <td>
+                                {% if object|recursive_getattr(field) %}
+                                    {% with %}
+                                        {% set title, url = module.get_action_for_field(field, object) %}
+                                        {% if url %}
+                                            <a href="{{ url }}"{% if title %} title="{{ title }}"{% endif %}>
+                                        {% endif %}
+                                        {{ object|recursive_getattr(field) }}
+                                        {% if url %}
+                                            </a>
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endif %}
+                            </td>
                         {% endfor %}
                         <td class="actions">{% for class, link, title, url in module.get_actions_for_object(object) %}<a href="{{ url }}?next={{ request.path }}" class="{{ class }}" title="{{ title }}">{{ link }}</a> {% endfor %}</td>
                     </tr>
