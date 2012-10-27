@@ -317,20 +317,6 @@ class ObjectAdminModule(AdminModule):
         """
         raise NotImplementedError()
 
-    def get_actions_for_object(self, object):
-        """Returns action available for each object.
-
-        :param object: The raw object
-        """
-        raise NotImplementedError()
-
-    def get_form(self, obj):
-        """Returns form initialy populate from object instance.
-
-        :param obj: The object
-        """
-        return self.form_class(obj=obj)
-
     def get_action_for_field(self, field, obj):
         """Returns title and link for given list field and object.
 
@@ -347,6 +333,20 @@ class ObjectAdminModule(AdminModule):
             if callable(url):
                 url = url(obj)
         return title, url
+
+    def get_actions_for_object(self, object):
+        """Returns action available for each object.
+
+        :param object: The raw object
+        """
+        raise NotImplementedError()
+
+    def get_form(self, obj):
+        """Returns form initialy populate from object instance.
+
+        :param obj: The object
+        """
+        return self.form_class(obj=obj)
 
     def get_object(self, pk=None):
         """Returns object retrieve by primary key.
