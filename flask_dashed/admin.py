@@ -289,7 +289,7 @@ class ObjectAdminModule(AdminModule):
         """
         return [
             ('/', 'list', self.list_view.as_view('short_title', self)),
-            ('/page/<page>', 'list', self.list_view.as_view('short_title',
+            ('/page/<page>', 'listpaged', self.list_view.as_view('short_title',
                 self)),
             ('/new', 'new', self.form_view.as_view('short_title', self)),
             ('/<pk>/edit', 'edit', self.form_view.as_view('short_title',
